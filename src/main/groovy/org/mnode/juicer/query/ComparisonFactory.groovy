@@ -29,27 +29,30 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.mnode.juicer
+package org.mnode.juicer.query
 
 
-import javax.jcr.query.QueryManagerimport javax.jcr.query.qom.PropertyValue
+
+import javax.jcr.query.QueryManagerimport javax.jcr.query.qom.DynamicOperandimport javax.jcr.query.qom.Comparisonimport javax.jcr.query.qom.StaticOperand
 
 /**
  * @author Ben
  *
  */
-public class PropertyValueFactory extends AbstractQomFactory {
+public class ComparisonFactory extends AbstractQomFactory {
      
      public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
-         PropertyValue propertyValue
-         if (FactoryBuilderSupport.checkValueIsTypeNotString(value, name, PropertyValue.class)) {
-             propertyValue = (PropertyValue) value
+         Comparison comparison
+         if (FactoryBuilderSupport.checkValueIsTypeNotString(value, name, Comparison.class)) {
+             comparison = (Comparison) value
          }
          else {
-             String selectorName = attributes.remove('selectorName')
-             String propertyName = attributes.remove('propertyName')
-             propertyValue = queryManager.qomFactory.propertyValue(selectorName, propertyName)
+             DynamicOperand operand1 = attributes.remove('operand1')
+             String operator = attributes.remove('operator')
+             StaticOperand operand2 = attributes.remove('operand2')
+//             StaticOperand operand2 = queryManager.qomFactory.literal(operand2Value)
+             comparison = queryManager.qomFactory.comparison(operand1, operator, operand2)
          }
-         return propertyValue
+         return comparison
      }
 }

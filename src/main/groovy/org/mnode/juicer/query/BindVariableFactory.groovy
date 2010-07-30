@@ -29,29 +29,27 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.mnode.juicer
+package org.mnode.juicer.query
 
 
-import javax.jcr.query.QueryManagerimport javax.jcr.query.Queryimport javax.jcr.query.qom.Sourceimport javax.jcr.query.qom.Constraintimport javax.jcr.query.qom.Orderingimport javax.jcr.query.qom.Column
+
+import javax.jcr.query.QueryManagerimport javax.jcr.query.qom.BindVariableValue
 
 /**
  * @author Ben
  *
  */
-public class QueryFactory extends AbstractQomFactory {
+public class BindVariableFactory extends AbstractQomFactory {
      
      public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
-         Query query
-         if (FactoryBuilderSupport.checkValueIsTypeNotString(value, name, Query.class)) {
-             query = (Query) value
+         BindVariableValue bindVariable
+         if (FactoryBuilderSupport.checkValueIsTypeNotString(value, name, BindVariableValue.class)) {
+             bindVariable = (BindVariableValue) value
          }
          else {
-             Source source = attributes.remove('source')
-             Constraint constraint = attributes.remove('constraint')
-             Ordering[] orderings = attributes.remove('orderings')
-             Column[] columns = attributes.remove('columns')
-             query = queryManager.qomFactory.createQuery(source, constraint, orderings, columns)
+             String bindVariableName = attributes.remove('name')
+             bindVariable = queryManager.qomFactory.bindVariable(bindVariableName)
          }
-         return query
+         return bindVariable
      }
 }

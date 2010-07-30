@@ -29,29 +29,28 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.mnode.juicer
+package org.mnode.juicer.query
 
 
-import javax.jcr.query.QueryManagerimport javax.jcr.query.qom.Selectorimport javax.jcr.query.qom.FullTextSearchimport javax.jcr.query.qom.StaticOperand
+
+import javax.jcr.query.QueryManagerimport javax.jcr.query.qom.ChildNode
 
 /**
  * @author Ben
  *
  */
-public class FullTextSearchFactory extends AbstractQomFactory {
+public class ChildNodeFactory extends AbstractQomFactory {
      
      public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
-         FullTextSearch fullTextSearch
-         if (FactoryBuilderSupport.checkValueIsTypeNotString(value, name, FullTextSearch.class)) {
-             fullTextSearch = (FullTextSearch) value
+         ChildNode childNode
+         if (FactoryBuilderSupport.checkValueIsTypeNotString(value, name, ChildNode.class)) {
+             childNode = (ChildNode) value
          }
          else {
              String selectorName = attributes.remove('selectorName')
-             String propertyName = attributes.remove('propertyName')
-             String searchTerms = attributes.remove('searchTerms')
-             StaticOperand fullTextSearchExpression = queryManager.qomFactory.literal(valueFactory.createValue(searchTerms))
-             fullTextSearch = queryManager.qomFactory.fullTextSearch(selectorName, propertyName, fullTextSearchExpression)
+             String path = attributes.remove('path')
+             childNode = queryManager.qomFactory.childNode(selectorName, path)
          }
-         return fullTextSearch
+         return childNode
      }
 }

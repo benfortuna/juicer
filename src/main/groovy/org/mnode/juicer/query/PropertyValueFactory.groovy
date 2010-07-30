@@ -29,26 +29,28 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.mnode.juicer
+package org.mnode.juicer.query
 
 
-import javax.jcr.query.QueryManagerimport javax.jcr.query.qom.BindVariableValue
+
+import javax.jcr.query.QueryManagerimport javax.jcr.query.qom.PropertyValue
 
 /**
  * @author Ben
  *
  */
-public class BindVariableFactory extends AbstractQomFactory {
+public class PropertyValueFactory extends AbstractQomFactory {
      
      public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
-         BindVariableValue bindVariable
-         if (FactoryBuilderSupport.checkValueIsTypeNotString(value, name, BindVariableValue.class)) {
-             bindVariable = (BindVariableValue) value
+         PropertyValue propertyValue
+         if (FactoryBuilderSupport.checkValueIsTypeNotString(value, name, PropertyValue.class)) {
+             propertyValue = (PropertyValue) value
          }
          else {
-             String bindVariableName = attributes.remove('name')
-             bindVariable = queryManager.qomFactory.bindVariable(bindVariableName)
+             String selectorName = attributes.remove('selectorName')
+             String propertyName = attributes.remove('propertyName')
+             propertyValue = queryManager.qomFactory.propertyValue(selectorName, propertyName)
          }
-         return bindVariable
+         return propertyValue
      }
 }

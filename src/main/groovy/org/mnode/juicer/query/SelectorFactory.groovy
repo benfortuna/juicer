@@ -29,7 +29,8 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.mnode.juicer
+package org.mnode.juicer.query
+
 
 
 import javax.jcr.query.QueryManagerimport javax.jcr.query.qom.Selector

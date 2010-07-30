@@ -29,27 +29,28 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.mnode.juicer
+package org.mnode.juicer.query
 
 
-import javax.jcr.query.QueryManagerimport javax.jcr.query.qom.ChildNode
+
+import javax.jcr.query.qom.Andimport javax.jcr.query.qom.Constraintimport javax.jcr.query.QueryManager
 
 /**
  * @author Ben
  *
  */
-public class ChildNodeFactory extends AbstractQomFactory {
+public class AndFactory extends AbstractQomFactory {
      
      public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
-         ChildNode childNode
-         if (FactoryBuilderSupport.checkValueIsTypeNotString(value, name, ChildNode.class)) {
-             childNode = (ChildNode) value
+         And constraint
+         if (FactoryBuilderSupport.checkValueIsTypeNotString(value, name, And.class)) {
+             constraint = (And) value
          }
          else {
-             String selectorName = attributes.remove('selectorName')
-             String path = attributes.remove('path')
-             childNode = queryManager.qomFactory.childNode(selectorName, path)
+             Constraint constraint1 = attributes.remove('constraint1')
+             Constraint constraint2 = attributes.remove('constraint2')
+             constraint = queryManager.qomFactory.and(constraint1, constraint2)
          }
-         return childNode
+         return constraint
      }
 }

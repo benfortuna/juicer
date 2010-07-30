@@ -29,26 +29,19 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.mnode.juicer
+package org.mnode.juicer.query
 
 
-import javax.jcr.query.QueryManagerimport javax.jcr.query.qom.Orderingimport javax.jcr.query.qom.DynamicOperand
+
+import javax.jcr.query.QueryManagerimport javax.jcr.ValueFactory
 
 /**
  * @author Ben
  *
  */
-public class AscendingFactory extends AbstractQomFactory {
-     
-     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
-         Ordering ordering
-         if (FactoryBuilderSupport.checkValueIsTypeNotString(value, name, Ordering.class)) {
-             ordering = (Ordering) value
-         }
-         else {
-             DynamicOperand operand = attributes.remove('operand')
-             ordering = queryManager.qomFactory.ascending(operand)
-         }
-         return ordering
-     }
+public abstract class AbstractQomFactory extends AbstractFactory{
+
+    QueryManager queryManager
+    
+    ValueFactory valueFactory
 }

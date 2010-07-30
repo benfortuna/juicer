@@ -29,27 +29,30 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.mnode.juicer
+package org.mnode.juicer.query
 
 
-import javax.jcr.query.qom.Andimport javax.jcr.query.qom.Constraintimport javax.jcr.query.QueryManager
+
+import javax.jcr.query.QueryManagerimport javax.jcr.query.qom.Selectorimport javax.jcr.query.qom.FullTextSearchimport javax.jcr.query.qom.StaticOperand
 
 /**
  * @author Ben
  *
  */
-public class AndFactory extends AbstractQomFactory {
+public class FullTextSearchFactory extends AbstractQomFactory {
      
      public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
-         And constraint
-         if (FactoryBuilderSupport.checkValueIsTypeNotString(value, name, And.class)) {
-             constraint = (And) value
+         FullTextSearch fullTextSearch
+         if (FactoryBuilderSupport.checkValueIsTypeNotString(value, name, FullTextSearch.class)) {
+             fullTextSearch = (FullTextSearch) value
          }
          else {
-             Constraint constraint1 = attributes.remove('constraint1')
-             Constraint constraint2 = attributes.remove('constraint2')
-             constraint = queryManager.qomFactory.and(constraint1, constraint2)
+             String selectorName = attributes.remove('selectorName')
+             String propertyName = attributes.remove('propertyName')
+             String searchTerms = attributes.remove('searchTerms')
+             StaticOperand fullTextSearchExpression = queryManager.qomFactory.literal(valueFactory.createValue(searchTerms))
+             fullTextSearch = queryManager.qomFactory.fullTextSearch(selectorName, propertyName, fullTextSearchExpression)
          }
-         return constraint
+         return fullTextSearch
      }
 }

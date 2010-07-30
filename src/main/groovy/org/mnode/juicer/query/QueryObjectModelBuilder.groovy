@@ -29,29 +29,33 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.mnode.juicer
+package org.mnode.juicer.query
 
 
-import javax.jcr.query.QueryManagerimport javax.jcr.query.qom.DynamicOperandimport javax.jcr.query.qom.Comparisonimport javax.jcr.query.qom.StaticOperand
+
+import javax.jcr.query.QueryManagerimport javax.jcr.ValueFactory
 
 /**
  * @author Ben
  *
  */
-public class ComparisonFactory extends AbstractQomFactory {
-     
-     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
-         Comparison comparison
-         if (FactoryBuilderSupport.checkValueIsTypeNotString(value, name, Comparison.class)) {
-             comparison = (Comparison) value
-         }
-         else {
-             DynamicOperand operand1 = attributes.remove('operand1')
-             String operator = attributes.remove('operator')
-             StaticOperand operand2 = attributes.remove('operand2')
-//             StaticOperand operand2 = queryManager.qomFactory.literal(operand2Value)
-             comparison = queryManager.qomFactory.comparison(operand1, operator, operand2)
-         }
-         return comparison
-     }
+public class QueryObjectModelBuilder extends FactoryBuilderSupport {
+
+    public QueryObjectModelBuilder(QueryManager queryManager) {
+        this(queryManager, null)
+    }
+    
+    public QueryObjectModelBuilder(QueryManager queryManager, ValueFactory valueFactory) {
+        registerFactory('and', new AndFactory(queryManager: queryManager))
+        registerFactory('ascending', new AscendingFactory(queryManager: queryManager))
+        registerFactory('bindVariable', new BindVariableFactory(queryManager: queryManager))
+        registerFactory('childNode', new ChildNodeFactory(queryManager: queryManager))
+        registerFactory('comparison', new ComparisonFactory(queryManager: queryManager, valueFactory: valueFactory))
+        registerFactory('descending', new DescendingFactory(queryManager: queryManager))
+        registerFactory('fullTextSearch', new FullTextSearchFactory(queryManager: queryManager, valueFactory: valueFactory))
+        registerFactory('propertyValue', new PropertyValueFactory(queryManager: queryManager))
+        registerFactory('query', new QueryFactory(queryManager: queryManager))
+        registerFactory('selector', new SelectorFactory(queryManager: queryManager))
+    }
+    
 }
