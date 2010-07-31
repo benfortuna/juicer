@@ -22,12 +22,9 @@ class JcrNodeGPath extends GroovyObjectSupport {
     }
     
     public void setProperty(String name, Object newValue) {
-        node.setProperty name, newValue
-    }
-    
-    public void setProperty(String propertyName, String newValue) {
-        if (!node.hasProperty(propertyName) || node.getProperty(propertyName).string != newValue) {
-            node.setProperty propertyName, newValue
+        if (!node.hasProperty(name) || node.getProperty(name).string != node.session.valueFactory.createValue(newValue).string) {
+//            println "prop ${name} - new value: ${newValue}"
+            node.setProperty name, newValue
         }
     }
     
