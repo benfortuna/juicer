@@ -24,5 +24,6 @@ class JcrNodeGPathTest extends AbstractJcrTest {
         
         def gpath = new JcrNodeGPath(session.rootNode)
         assert gpath.testGetProperty.child1.'@prop'.string == 'test'
+        assert gpath.testGetProperty.child1['@prop'].string == 'test'
     }
 }
