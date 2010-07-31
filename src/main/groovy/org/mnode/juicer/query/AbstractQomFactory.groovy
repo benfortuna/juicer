@@ -39,7 +39,7 @@ import javax.jcr.query.QueryManagerimport javax.jcr.ValueFactory
  * @author Ben
  *
  */
-public abstract class AbstractQomFactory extends AbstractFactory{
+public abstract class AbstractQomFactory extends AbstractFactory {
 
     QueryManager queryManager
     
