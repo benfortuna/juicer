@@ -1,9 +1,8 @@
 package org.mnode.juicer.slurper
 
 
-import groovy.lang.GroovyObjectSupport;
 
-class JcrNodeGPath extends GroovyObjectSupport {
+class JcrNodeGPath {
     
     private final javax.jcr.Node node;
     
