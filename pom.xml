@@ -12,10 +12,25 @@
 	<name>Juicer</name>
 	<description>JCR extraction utilities</description>
 	<inceptionYear>2010</inceptionYear>
+	
 	<scm>
 		<connection>scm:hg:https://juicer.googlecode.com/hg/</connection>
 		<developerConnection>scm:hg:https://juicer.googlecode.com/hg/</developerConnection>
 	</scm>
+	
+	<repositories>
+		<repository>
+	        <id>micronode-snapshots</id>
+	        <url>http://build.mnode.org/snapshots</url>
+	        <releases>
+	           <enabled>false</enabled>
+	        </releases>
+	        <snapshots>
+	          <enabled>true</enabled>
+	        </snapshots>        
+	     </repository>
+	</repositories>
+
 	<dependencies>
 		<dependency>
 			<groupId>javax.jcr</groupId>
