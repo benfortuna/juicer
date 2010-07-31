@@ -39,13 +39,13 @@ import javax.jcr.query.QueryManagerimport javax.jcr.ValueFactory
  * @author Ben
  *
  */
-public class QueryObjectModelBuilder extends FactoryBuilderSupport {
+public class QueryBuilder extends FactoryBuilderSupport {
 
-    public QueryObjectModelBuilder(QueryManager queryManager) {
+    public QueryBuilder(QueryManager queryManager) {
         this(queryManager, null)
     }
     
-    public QueryObjectModelBuilder(QueryManager queryManager, ValueFactory valueFactory) {
+    public QueryBuilder(QueryManager queryManager, ValueFactory valueFactory) {
         registerFactory('and', new AndFactory(queryManager: queryManager))
         registerFactory('ascending', new AscendingFactory(queryManager: queryManager))
         registerFactory('bindVariable', new BindVariableFactory(queryManager: queryManager))
