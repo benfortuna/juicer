@@ -11,30 +11,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 
-class JcrNodeCategoryTest {
-
-    private static Session session
-    
-    @BeforeClass
-    static void initialise() {
-        def configFile = JcrNodeCategoryTest.getResource('/config.xml').toURI()
-        def homeDir = new File('target/repository').absolutePath
-        def config = RepositoryConfig.create(configFile, homeDir)
-        
-        def repository = new TransientRepository(config)
-        
-        session = repository.login(new SimpleCredentials('admin', ''.toCharArray()))
-    }
-    
-    @AfterClass
-    static void shutdown() {
-        session.logout()
-    }
-    
-    @After
-    void tearDown() {
-        session.refresh false
-    }
+class JcrNodeCategoryTest extends AbstractJcrTest {
     
     @Test
     void testCreateNode() {
