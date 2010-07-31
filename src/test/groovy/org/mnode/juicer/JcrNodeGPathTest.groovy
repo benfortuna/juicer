@@ -32,7 +32,9 @@ class JcrNodeGPathTest extends AbstractJcrTest {
 
     @Test
     void testSetProperty() {
+        def eventCount = 0
         session.workspace.observationManager.addEventListener({ events ->
+            eventCount++
             println 'event fired'
             for (event in events) {
                 println "${event.path} - ${event.type}"
@@ -58,5 +60,7 @@ class JcrNodeGPathTest extends AbstractJcrTest {
         gpath.testSetProperty.child1['longprop'] = 1
         
         session.save()
+        // shouldn't get events for the last property change..
+        assert eventCount == 2
     }
 }
