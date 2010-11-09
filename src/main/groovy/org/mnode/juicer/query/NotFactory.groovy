@@ -33,31 +33,18 @@ package org.mnode.juicer.query
 
 
 
-import javax.jcr.query.QueryManagerimport javax.jcr.ValueFactory
+import javax.jcr.query.qom.Constraintimport javax.jcr.query.qom.Not;
+import javax.jcr.query.QueryManager
 
 /**
  * @author Ben
  *
  */
-public class QueryBuilder extends FactoryBuilderSupport {
-
-    public QueryBuilder(QueryManager queryManager) {
-        this(queryManager, null)
-    }
-    
-    public QueryBuilder(QueryManager queryManager, ValueFactory valueFactory) {
-        registerFactory('and', new AndFactory(queryManager: queryManager))
-        registerFactory('not', new NotFactory(queryManager: queryManager))
-        registerFactory('ascending', new AscendingFactory(queryManager: queryManager))
-        registerFactory('bindVariable', new BindVariableFactory(queryManager: queryManager))
-        registerFactory('childNode', new ChildNodeFactory(queryManager: queryManager))
-        registerFactory('descendantNode', new DescendantNodeFactory(queryManager: queryManager))
-        registerFactory('comparison', new ComparisonFactory(queryManager: queryManager, valueFactory: valueFactory))
-        registerFactory('descending', new DescendingFactory(queryManager: queryManager))
-        registerFactory('fullTextSearch', new FullTextSearchFactory(queryManager: queryManager, valueFactory: valueFactory))
-        registerFactory('propertyValue', new PropertyValueFactory(queryManager: queryManager))
-        registerFactory('query', new QueryFactory(queryManager: queryManager))
-        registerFactory('selector', new SelectorFactory(queryManager: queryManager))
-    }
-    
+public class NotFactory extends AbstractQomFactory {
+     
+     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+         FactoryBuilderSupport.checkValueIsType(value, name, Constraint)
+         Not constraint = queryManager.qomFactory.not(value)
+         return constraint
+     }
 }
