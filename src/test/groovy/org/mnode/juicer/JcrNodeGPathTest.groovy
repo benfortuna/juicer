@@ -34,11 +34,13 @@ package org.mnode.juicer;
 import javax.jcr.observation.Event;
 import javax.jcr.observation.EventListener;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mnode.juicer.slurper.JcrNodeGPath;
 
 import static org.junit.Assert.*;
 
+@Ignore
 class JcrNodeGPathTest extends AbstractJcrTest {
     
     @Test

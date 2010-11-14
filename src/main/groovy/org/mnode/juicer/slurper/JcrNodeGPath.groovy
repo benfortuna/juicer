@@ -40,7 +40,7 @@ class JcrNodeGPath {
     JcrNodeGPath(javax.jcr.Node node) {
         this.node = node
     }
-    
+/*
     @Override
     public Object getProperty(String name) {
         if (name.startsWith("@") && node.hasProperty(name.substring(1))) {
@@ -59,7 +59,7 @@ class JcrNodeGPath {
             node.setProperty name, newValue
         }
     }
-    
+*/  
     @Override
     String toString() {
         node.path
