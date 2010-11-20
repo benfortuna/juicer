@@ -57,7 +57,7 @@ public class QueryBuilder extends FactoryBuilderSupport {
         registerFactory('descending', new DescendingFactory(queryManager: queryManager))
         registerFactory('fullTextSearch', new FullTextSearchFactory(queryManager: queryManager, valueFactory: valueFactory))
         registerFactory('propertyValue', new PropertyValueFactory(queryManager: queryManager))
-        registerFactory('nodeName', new NodeNameFactory(queryManager: queryManager))
+        registerFactory('nodeNamex', new NodeNameFactory(queryManager: queryManager))
         registerFactory('query', new QueryFactory(queryManager: queryManager))
         registerFactory('selector', new SelectorFactory(queryManager: queryManager))
     }
