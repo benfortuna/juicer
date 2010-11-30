@@ -49,8 +49,14 @@ public class FullTextSearchFactory extends AbstractQomFactory {
          else {
              String selectorName = attributes.remove('selectorName')
              String propertyName = attributes.remove('propertyName')
-             String searchTerms = attributes.remove('searchTerms')
-             StaticOperand fullTextSearchExpression = queryManager.qomFactory.literal(valueFactory.createValue(searchTerms))
+             def searchTerms = attributes.remove('searchTerms')
+			 StaticOperand fullTextSearchExpression
+			 if (searchTerms instanceof StaticOperand) {
+				 fullTextSearchExpression = searchTerms
+			 }
+			 else {
+             	fullTextSearchExpression = queryManager.qomFactory.literal(valueFactory.createValue(searchTerms))
+			 }
              fullTextSearch = queryManager.qomFactory.fullTextSearch(selectorName, propertyName, fullTextSearchExpression)
          }
          return fullTextSearch
