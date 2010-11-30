@@ -47,6 +47,7 @@ public class QueryBuilder extends FactoryBuilderSupport {
     
     public QueryBuilder(QueryManager queryManager, ValueFactory valueFactory) {
         registerFactory('and', new AndFactory(queryManager: queryManager))
+        registerFactory('or', new OrFactory(queryManager: queryManager))
         registerFactory('not', new NotFactory(queryManager: queryManager))
         registerFactory('ascending', new AscendingFactory(queryManager: queryManager))
         registerFactory('bindVariable', new BindVariableFactory(queryManager: queryManager))
