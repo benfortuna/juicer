@@ -33,19 +33,20 @@ package org.mnode.juicer
 
 import javax.jcr.NodeIterator;
 
+@Category(javax.jcr.Node)
 class JcrNodeCategory {
 
 //    static def propertyMissing(Node node, String propertyName) {
-    static javax.jcr.Property get(javax.jcr.Node node, String propertyName) {
-        if (node.hasProperty(propertyName)) {
-            return node.getProperty(propertyName)
+    javax.jcr.Property get(String propertyName) {
+        if (this.hasProperty(propertyName)) {
+            return this.getProperty(propertyName)
         }
         return null
     }
     
-    static javax.jcr.Node getAt(javax.jcr.Node node, int index) {
-        if (node.nodes.size() >= index - 1) {
-            NodeIterator children = node.nodes
+    javax.jcr.Node getAt(int index) {
+        if (this.nodes.size() >= index - 1) {
+            NodeIterator children = this.nodes
             children.skip index
             return children.nextNode()
         }
