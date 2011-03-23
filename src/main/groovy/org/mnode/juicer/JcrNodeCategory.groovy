@@ -58,4 +58,12 @@ class JcrNodeCategory {
 //    static void put(Node node, String propertyName, value) {
 //        node.setProperty propertyName, value
 //    }
+	
+	void rename(String newName) {
+		this.getSession().move(this.getPath(), this.getParent().getPath() + "/" + newName)
+	}
+	
+	void move(String newParentPath) {
+		this.getSession().move(this.getPath(), newParentPath + "/" + this.getName())
+	}
 }
