@@ -60,10 +60,10 @@ class JcrNodeCategory {
 //    }
 	
 	void rename(String newName) {
-		this.getSession().move(this.getPath(), this.getParent().getPath() + "/" + newName)
+		this.session.move(this.path, this.parent.path + "/" + newName)
 	}
 	
 	void move(String newParentPath) {
-		this.getSession().move(this.getPath(), newParentPath + "/" + this.getName())
+		this.session.move(this.path, newParentPath + "/" + this.name)
 	}
 }
