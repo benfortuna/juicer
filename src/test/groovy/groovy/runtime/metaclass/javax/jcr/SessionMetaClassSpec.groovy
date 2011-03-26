@@ -29,25 +29,51 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package groovy.runtime.metaclass;
+package groovy.runtime.metaclass.javax.jcr
 
-import groovy.lang.MetaClass;
-import groovy.lang.MetaClassRegistry;
-import groovy.lang.MetaClassRegistry.MetaClassCreationHandle;
-import groovy.runtime.metaclass.javax.jcr.NodeMetaClass;
-import groovy.runtime.metaclass.javax.jcr.SessionMetaClass;
+import java.util.concurrent.locks.ReentrantLock
 
-public class CustomMetaClassCreationHandle extends MetaClassCreationHandle {
+import javax.jcr.Session
+import javax.jcr.SimpleCredentials
+
+import org.apache.jackrabbit.core.TransientRepository
+import org.apache.jackrabbit.core.config.RepositoryConfig
+
+import spock.lang.Shared
+import spock.lang.Specification
+
+class SessionMetaClassSpec extends Specification {
 	
-	protected MetaClass createNormalMetaClass(@SuppressWarnings("rawtypes") Class theClass, MetaClassRegistry registry) {
-		if (theClass != null && javax.jcr.Node.class.isAssignableFrom(theClass)) {
-			return new NodeMetaClass(super.createNormalMetaClass(theClass, registry));
+	@Shared Session session
+	
+	def setupSpec() {
+		def configFile = SessionMetaClassSpec.getResource('/config.xml').toURI()
+		def homeDir = new File('target/repository').absolutePath
+		def config = RepositoryConfig.create(configFile, homeDir)
+		
+		def repository = new TransientRepository(config)
+		
+		session = repository.login(new SimpleCredentials('admin', ''.toCharArray()))
+	}
+	
+	def cleanupSpec() {
+		session.logout()
+	}
+	
+	def cleanup() {
+		session.refresh false
+	}
+
+	def 'verify closure is executed with lock'() {
+		setup:
+		def lock = new ReentrantLock()
+		
+		and:
+		session.withLock(lock) {
+			def node = rootNode.addNode('testLockedNode')
 		}
-		else if (theClass != null && javax.jcr.Session.class.isAssignableFrom(theClass)) {
-			return new SessionMetaClass(super.createNormalMetaClass(theClass, registry));
-		}
-		else {
-			return super.createNormalMetaClass(theClass, registry);
-		}
+		
+		expect:
+		assert session.rootNode.testLockedNode
 	}
 }

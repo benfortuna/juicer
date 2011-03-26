@@ -29,25 +29,41 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package groovy.runtime.metaclass;
+package groovy.runtime.metaclass.javax.jcr
 
-import groovy.lang.MetaClass;
-import groovy.lang.MetaClassRegistry;
-import groovy.lang.MetaClassRegistry.MetaClassCreationHandle;
-import groovy.runtime.metaclass.javax.jcr.NodeMetaClass;
-import groovy.runtime.metaclass.javax.jcr.SessionMetaClass;
+import java.util.concurrent.locks.Lock;
 
-public class CustomMetaClassCreationHandle extends MetaClassCreationHandle {
+import groovy.lang.Closure;
+import groovy.lang.DelegatingMetaClass
+
+class SessionMetaClass extends DelegatingMetaClass {
 	
-	protected MetaClass createNormalMetaClass(@SuppressWarnings("rawtypes") Class theClass, MetaClassRegistry registry) {
-		if (theClass != null && javax.jcr.Node.class.isAssignableFrom(theClass)) {
-			return new NodeMetaClass(super.createNormalMetaClass(theClass, registry));
+	SessionMetaClass(MetaClass delegate) {
+		super(delegate)
+	}
+	
+	void withLock(Object a, Lock lock, Closure c) {
+		lock.lock()
+		try {
+			a.with c
 		}
-		else if (theClass != null && javax.jcr.Session.class.isAssignableFrom(theClass)) {
-			return new SessionMetaClass(super.createNormalMetaClass(theClass, registry));
-		}
-		else {
-			return super.createNormalMetaClass(theClass, registry);
+		finally {
+			lock.unlock()
 		}
 	}
+	
+	Object invokeMethod(Object a_object, String a_methodName, Object[] a_arguments) {
+		try {
+			super.invokeMethod(a_object, a_methodName, a_arguments)
+		}
+		catch (MissingMethodException e) {
+			if (a_methodName == 'withLock') {
+				withLock(a_object, a_arguments[0], a_arguments[1])
+			}
+			else {
+				throw e
+			}
+		}
+	}
+
 }
