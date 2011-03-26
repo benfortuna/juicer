@@ -84,9 +84,9 @@ class NodeMetaClass extends DelegatingMetaClass {
 			else if (a.hasNode(key)) {
 				a.getNode(key)
 			}
-			else {
-				throw e
-			}
+//			else {
+//				throw e
+//			}
 		}
 	}
 }
