@@ -81,6 +81,9 @@ class NodeMetaClass extends DelegatingMetaClass {
 			if (a.hasProperty(key)) {
 				a.getProperty(key)
 			}
+			else if (a.hasNode(key)) {
+				a.getNode(key)
+			}
 			else {
 				throw e
 			}
