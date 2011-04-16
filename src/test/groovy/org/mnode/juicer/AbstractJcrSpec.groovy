@@ -31,52 +31,35 @@
  */
 package org.mnode.juicer
 
-import javax.jcr.Session
+import javax.jcr.Session;
+import javax.jcr.SimpleCredentials;
 
-import org.apache.poi.hssf.record.formula.functions.T
+import org.apache.jackrabbit.core.TransientRepository;
+import org.apache.jackrabbit.core.config.RepositoryConfig;
 
-class JcrNodeCategorySpec extends AbstractJcrSpec {
+import spock.lang.Shared;
+import spock.lang.Specification;
+
+abstract class AbstractJcrSpec extends Specification {
 	
-	def 'verify node is correctly renamed'() {
-		setup: 'create a new node'
-        def node = session.rootNode.addNode('testRenameNode')
+	@Shared Session session
+	
+	def setupSpec() {
+		def configFile = AbstractJcrSpec.getResource('/config.xml').toURI()
+		def homeDir = new File("target/repository/${getClass().simpleName}").absolutePath
+		def config = RepositoryConfig.create(configFile, homeDir)
 		
-		and: 'rename node'
-		use(JcrNodeCategory) {
-			node.rename('testNodeIsRenamed')
-		}
+		def repository = new TransientRepository(config)
 		
-		expect: 'check node is renamed as expected'
-		assert session.getNode('/testNodeIsRenamed')
+		session = repository.login(new SimpleCredentials('admin', ''.toCharArray()))
 	}
 	
-	def 'verify node is correctly moved'() {
-		setup: 'create a new node'
-        def node = session.rootNode.addNode('testMoveNode')
-		
-		and: 'create another'
-		def node2 = session.rootNode.addNode('testMoveNode2')
-		
-		and: 'move the first node to be a child of the second'
-		use(JcrNodeCategory) {
-			node.move(node2.path)
-		}
-		
-		expect: 'check node is moved as expected'
-		assert session.getNode('/testMoveNode2/testMoveNode')
+	def cleanupSpec() {
+		session.logout()
 	}
-
-	def 'verify property is set correctly'() {
-		setup: 'create a new node'
-		def node = session.rootNode.addNode('testSetProperty')
-		
-		and: 'set a property value'
-//		use(JcrNodeCategory) {
-			node['aProperty'] = 'test'
-//		}
-		
-		expect: 'the property has been set'
-		assert node.getProperty('aProperty').value.string == 'test'
+	
+	def cleanup() {
+		session.refresh false
 	}
 
 }

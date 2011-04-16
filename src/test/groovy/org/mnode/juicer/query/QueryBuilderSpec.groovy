@@ -29,37 +29,19 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-import javax.jcr.SimpleCredentials;
-import javax.jcr.query.qom.QueryObjectModelConstants;
+package org.mnode.juicer.query
 
-import org.apache.jackrabbit.core.TransientRepository;
-import org.apache.jackrabbit.core.config.RepositoryConfig;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.mnode.juicer.query.QueryBuilder;
+import javax.jcr.Session
+import javax.jcr.query.qom.QueryObjectModelConstants
 
-class QueryBuilderTest {
+import org.apache.poi.hssf.record.formula.functions.T
+import org.mnode.juicer.AbstractJcrSpec
 
-	static def session
-	
-	@BeforeClass
-	static void setup() {
-		def repoConfig = RepositoryConfig.create(QueryBuilderTest.getResource("/config.xml").toURI(),
-			new File(System.getProperty("user.dir"), "repository").absolutePath)
-		def repository = new TransientRepository(repoConfig)
-		
-		session = repository.login(new SimpleCredentials('readonly', ''.toCharArray()))
-	}
+class QueryBuilderSpec extends AbstractJcrSpec {
 
-	@AfterClass	
-	static void tearDown() {
-		session.logout()
-	}
-	
-	@Test
-	void testAttachments() {
-		def attachments = new QueryBuilder(session.workspace.queryManager).with {
+	def 'verify query is generated correctly'() {
+		setup:
+		def query = new QueryBuilder(session.workspace.queryManager).with {
 			query(
 				source: selector(nodeType: 'nt:file', name: 'files'),
 				constraint: and(
@@ -76,38 +58,7 @@ class QueryBuilderTest {
 			)
 		}
 		
-		println attachments.statement
-	}
-
-	@Test	
-	void testReferences() {
-		def references = new QueryBuilder(session.workspace.queryManager).with {
-			query(
-				source: selector(nodeType: 'nt:unstructured', name: 'headers'),
-				constraint: and(
-					constraint1: descendantNode(selectorName: 'headers', path: '/messages'),
-					constraint2: and(
-						constraint1: comparison(
-							operand1: nodeNamex(selectorName: 'headers'),
-							operator: QueryObjectModelConstants.JCR_OPERATOR_EQUAL_TO,
-							operand2: literal(session.valueFactory.createValue('headers'))),
-						constraint2: or(
-								constraint1: comparison(
-										operand1: propertyValue(selectorName: 'headers', propertyName: 'In-Reply-To'),
-										operator: QueryObjectModelConstants.JCR_OPERATOR_EQUAL_TO,
-										operand2: bindVariable('messageId')
-									),
-								constraint2: comparison(
-										operand1: propertyValue(selectorName: 'headers', propertyName: 'References'),
-										operator: QueryObjectModelConstants.JCR_OPERATOR_EQUAL_TO,
-										operand2: bindVariable('messageId')
-									)
-							)
-						)
-					)
-			)
-		}
-		
-		println references.statement
+		expect:
+		query.statement == "SELECT * FROM [nt:file] AS files WHERE ISDESCENDANTNODE(files, [/]) AND (NOT NAME(files) = 'part') AND (NOT NAME(files) = 'data')"
 	}
 }

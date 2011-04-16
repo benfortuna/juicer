@@ -32,35 +32,11 @@
 package groovy.runtime.metaclass.javax.jcr
 
 import javax.jcr.Session
-import javax.jcr.SimpleCredentials
 
-import org.apache.jackrabbit.core.TransientRepository
-import org.apache.jackrabbit.core.config.RepositoryConfig
+import org.apache.poi.hssf.record.formula.functions.T
+import org.mnode.juicer.AbstractJcrSpec
 
-import spock.lang.Shared
-import spock.lang.Specification
-
-class NodeMetaClassSpec extends Specification {
-	
-	@Shared Session session
-	
-	def setupSpec() {
-		def configFile = NodeMetaClassSpec.getResource('/config.xml').toURI()
-		def homeDir = new File('target/repository').absolutePath
-		def config = RepositoryConfig.create(configFile, homeDir)
-		
-		def repository = new TransientRepository(config)
-		
-		session = repository.login(new SimpleCredentials('admin', ''.toCharArray()))
-	}
-	
-	def cleanupSpec() {
-		session.logout()
-	}
-	
-	def cleanup() {
-		session.refresh false
-	}
+class NodeMetaClassSpec extends AbstractJcrSpec {
 
 	def 'verify property value is returned'() {
 		setup: 'add a new node'

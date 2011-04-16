@@ -32,35 +32,8 @@
 package org.mnode.juicer
 
 import javax.jcr.Session
-import javax.jcr.SimpleCredentials
 
-import org.apache.jackrabbit.core.TransientRepository
-import org.apache.jackrabbit.core.config.RepositoryConfig
-
-import spock.lang.Shared
-import spock.lang.Specification
-
-class JcrSessionCategorySpec extends Specification {
-	
-	@Shared Session session
-	
-	def setupSpec() {
-		def configFile = JcrNodeCategorySpec.getResource('/config.xml').toURI()
-		def homeDir = new File('target/repository').absolutePath
-		def config = RepositoryConfig.create(configFile, homeDir)
-		
-		def repository = new TransientRepository(config)
-		
-		session = repository.login(new SimpleCredentials('admin', ''.toCharArray()))
-	}
-	
-	def cleanupSpec() {
-		session.logout()
-	}
-	
-	def cleanup() {
-		session.refresh false
-	}
+class JcrSessionCategorySpec extends AbstractJcrSpec {
 
 	def 'execute code with session lock'() {
 		setup:
