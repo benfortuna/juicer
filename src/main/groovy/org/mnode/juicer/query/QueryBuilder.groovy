@@ -33,9 +33,9 @@ package org.mnode.juicer.query
 
 
 
-import javax.jcr.query.QueryManagerimport javax.jcr.query.qom.QueryObjectModelConstants;
-import javax.jcr.ValueFactory
-import org.apache.jackrabbit.commons.query.qom.JoinType;
+import javax.jcr.ValueFactory
+import javax.jcr.query.QueryManager
+import javax.jcr.query.qom.QueryObjectModelConstants
 
 
 /**
