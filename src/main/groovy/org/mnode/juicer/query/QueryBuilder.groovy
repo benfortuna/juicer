@@ -33,7 +33,10 @@ package org.mnode.juicer.query
 
 
 
-import javax.jcr.query.QueryManagerimport javax.jcr.ValueFactory
+import javax.jcr.query.QueryManagerimport javax.jcr.query.qom.QueryObjectModelConstants;
+import javax.jcr.ValueFactory
+import org.apache.jackrabbit.commons.query.qom.JoinType;
+
 
 /**
  * @author Ben
@@ -58,9 +61,14 @@ public class QueryBuilder extends FactoryBuilderSupport {
         registerFactory('descending', new DescendingFactory(queryManager: queryManager))
         registerFactory('fullTextSearch', new FullTextSearchFactory(queryManager: queryManager, valueFactory: valueFactory))
         registerFactory('propertyValue', new PropertyValueFactory(queryManager: queryManager))
+        registerFactory('propertyExistence', new PropertyExistenceFactory(queryManager: queryManager))
         registerFactory('nodeNamex', new NodeNameFactory(queryManager: queryManager))
         registerFactory('query', new QueryFactory(queryManager: queryManager))
         registerFactory('selector', new SelectorFactory(queryManager: queryManager))
+        registerFactory('leftJoin', new JoinFactory(queryManager: queryManager, joinType: QueryObjectModelConstants.JCR_JOIN_TYPE_LEFT_OUTER))
+        registerFactory('rightJoin', new JoinFactory(queryManager: queryManager, joinType: QueryObjectModelConstants.JCR_JOIN_TYPE_RIGHT_OUTER))
+        registerFactory('innerJoin', new JoinFactory(queryManager: queryManager, joinType: QueryObjectModelConstants.JCR_JOIN_TYPE_INNER))
+        registerFactory('childNodeJoinCondition', new ChildNodeJoinConditionFactory(queryManager: queryManager))
     }
     
 }

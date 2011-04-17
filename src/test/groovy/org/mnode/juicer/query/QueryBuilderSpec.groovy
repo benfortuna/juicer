@@ -39,7 +39,7 @@ import org.mnode.juicer.AbstractJcrSpec
 
 class QueryBuilderSpec extends AbstractJcrSpec {
 
-	def 'verify query is generated correctly'() {
+	def 'verify attachments query is generated correctly'() {
 		setup:
 		def query = new QueryBuilder(session.workspace.queryManager).with {
 			query(
@@ -60,5 +60,51 @@ class QueryBuilderSpec extends AbstractJcrSpec {
 		
 		expect:
 		query.statement == "SELECT * FROM [nt:file] AS files WHERE ISDESCENDANTNODE(files, [/]) AND (NOT NAME(files) = 'part') AND (NOT NAME(files) = 'data')"
+	}
+
+	def 'verify headers query is generated correctly'() {
+		setup:
+		def query = new QueryBuilder(session.workspace.queryManager).with {
+			query(
+				source: selector(nodeType: 'nt:unstructured', name: 'headers'),
+				constraint: and(
+					constraint1: descendantNode(selectorName: 'headers', path: '/messages'),
+					constraint2: and(
+						constraint1: comparison(
+							operand1: nodeNamex(selectorName: 'headers'),
+							operator: QueryObjectModelConstants.JCR_OPERATOR_EQUAL_TO,
+							operand2: literal(session.valueFactory.createValue('headers'))),
+						constraint2: propertyExistence(selectorName: 'headers', propertyName: 'Received')
+					)
+				)
+			)
+		}
+		
+		expect:
+		query.statement == "SELECT * FROM [nt:unstructured] AS headers WHERE ISDESCENDANTNODE(headers, [/messages]) AND NAME(headers) = 'headers' AND headers.Received IS NOT NULL"
+	}
+
+	def 'verify messages query is generated correctly'() {
+		setup:
+		def query = new QueryBuilder(session.workspace.queryManager).with {
+			query(
+				source: leftJoin(source1: selector(nodeType: 'nt:unstructured', name: 'messages'),
+					source2: selector(nodeType: 'nt:unstructured', name: 'headers'),
+					condition: childNodeJoinCondition(childSelectorName: 'headers', parentSelectorName: 'messages')),
+				constraint: and(
+					constraint1: descendantNode(selectorName: 'messages', path: '/messages'),
+					constraint2: and(
+						constraint1: comparison(
+							operand1: nodeNamex(selectorName: 'headers'),
+							operator: QueryObjectModelConstants.JCR_OPERATOR_EQUAL_TO,
+							operand2: literal(session.valueFactory.createValue('headers'))),
+						constraint2: propertyExistence(selectorName: 'headers', propertyName: 'Received')
+					)
+				)
+			)
+		}
+		
+		expect:
+		query.statement == "SELECT * FROM [nt:unstructured] AS messages LEFT OUTER JOIN [nt:unstructured] AS headers ON ISCHILDNODE(headers, messages) WHERE ISDESCENDANTNODE(messages, [/messages]) AND NAME(headers) = 'headers' AND headers.Received IS NOT NULL"
 	}
 }
