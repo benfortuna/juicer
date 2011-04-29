@@ -62,7 +62,6 @@
         <dependency>
             <groupId>org.spockframework</groupId>
             <artifactId>spock-core</artifactId>
-            <version>0.5-groovy-1.7</version>
             <scope>test</scope>
         </dependency>
 	</dependencies>
