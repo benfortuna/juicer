@@ -33,17 +33,23 @@ package org.mnode.juicer.query
 
 
 
-import javax.jcr.query.QueryManagerimport javax.jcr.query.Queryimport javax.jcr.query.qom.Sourceimport javax.jcr.query.qom.Constraintimport javax.jcr.query.qom.Orderingimport javax.jcr.query.qom.Column
+import javax.jcr.query.Query
+import javax.jcr.query.QueryManager
+import javax.jcr.query.qom.Column
+import javax.jcr.query.qom.Constraint
+import javax.jcr.query.qom.Ordering
+import javax.jcr.query.qom.Source
+
 
 /**
  * @author Ben
  *
  */
-public class QueryFactory extends AbstractQomFactory {
+class QueryFactory extends AbstractQomFactory {
      
-     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+     Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
          Query query
-         if (FactoryBuilderSupport.checkValueIsTypeNotString(value, name, Query.class)) {
+         if (FactoryBuilderSupport.checkValueIsTypeNotString(value, name, Query)) {
              query = (Query) value
          }
          else {
@@ -53,6 +59,6 @@ public class QueryFactory extends AbstractQomFactory {
              Column[] columns = attributes.remove('columns')
              query = queryManager.qomFactory.createQuery(source, constraint, orderings, columns)
          }
-         return query
+         query
      }
 }

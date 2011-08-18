@@ -33,24 +33,26 @@ package org.mnode.juicer.query
 
 
 
-import javax.jcr.query.QueryManagerimport javax.jcr.query.qom.NodeName;
-import javax.jcr.query.qom.PropertyValue
+import javax.jcr.query.QueryManager
+import javax.jcr.query.qom.NodeName
+import javax.jcr.query.qom.PropertyValue
+
 
 /**
  * @author Ben
  *
  */
-public class NodeNameFactory extends AbstractQomFactory {
+class NodeNameFactory extends AbstractQomFactory {
      
-     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+     Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
          NodeName nodeName
-         if (FactoryBuilderSupport.checkValueIsTypeNotString(value, name, PropertyValue.class)) {
+         if (FactoryBuilderSupport.checkValueIsTypeNotString(value, name, PropertyValue)) {
              nodeName = (NodeName) value
          }
          else {
              String selectorName = attributes.remove('selectorName')
              nodeName = queryManager.qomFactory.nodeName(selectorName)
          }
-         return nodeName
+         nodeName
      }
 }

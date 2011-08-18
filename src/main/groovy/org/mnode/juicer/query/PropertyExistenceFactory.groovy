@@ -34,7 +34,7 @@ package org.mnode.juicer.query
 
 
 import javax.jcr.query.QueryManager
-import javax.jcr.query.qom.PropertyExistence;
+import javax.jcr.query.qom.PropertyExistence
 import javax.jcr.query.qom.PropertyValue
 
 
@@ -42,11 +42,11 @@ import javax.jcr.query.qom.PropertyValue
  * @author Ben
  *
  */
-public class PropertyExistenceFactory extends AbstractQomFactory {
+class PropertyExistenceFactory extends AbstractQomFactory {
      
-     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+     Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
          PropertyExistence result
-         if (FactoryBuilderSupport.checkValueIsTypeNotString(value, name, PropertyValue.class)) {
+         if (FactoryBuilderSupport.checkValueIsTypeNotString(value, name, PropertyValue)) {
              result = (PropertyValue) value
          }
          else {
@@ -54,6 +54,6 @@ public class PropertyExistenceFactory extends AbstractQomFactory {
              String propertyName = attributes.remove('propertyName')
              result = queryManager.qomFactory.propertyExistence(selectorName, propertyName)
          }
-         return result
+         result
      }
 }

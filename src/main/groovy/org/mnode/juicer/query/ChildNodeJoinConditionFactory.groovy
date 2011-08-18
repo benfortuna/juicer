@@ -43,9 +43,9 @@ import javax.jcr.query.qom.ChildNodeJoinCondition
  */
 public class ChildNodeJoinConditionFactory extends AbstractQomFactory {
      
-     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+     Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
          ChildNodeJoinCondition result
-         if (FactoryBuilderSupport.checkValueIsTypeNotString(value, name, ChildNodeJoinCondition.class)) {
+         if (FactoryBuilderSupport.checkValueIsTypeNotString(value, name, ChildNodeJoinCondition)) {
              result = (ChildNodeJoinCondition) value
          }
          else {
@@ -53,6 +53,6 @@ public class ChildNodeJoinConditionFactory extends AbstractQomFactory {
              String parentSelectorName = attributes.remove('parentSelectorName')
              result = queryManager.QOMFactory.childNodeJoinCondition(childSelectorName, parentSelectorName)
          }
-         return result
+         result
      }
 }

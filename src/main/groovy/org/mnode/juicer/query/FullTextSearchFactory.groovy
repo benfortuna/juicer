@@ -33,15 +33,18 @@ package org.mnode.juicer.query
 
 
 
-import javax.jcr.query.QueryManagerimport javax.jcr.query.qom.Selectorimport javax.jcr.query.qom.FullTextSearchimport javax.jcr.query.qom.StaticOperand
+import javax.jcr.query.QueryManager
+import javax.jcr.query.qom.FullTextSearch
+import javax.jcr.query.qom.StaticOperand
+
 
 /**
  * @author Ben
  *
  */
-public class FullTextSearchFactory extends AbstractQomFactory {
+class FullTextSearchFactory extends AbstractQomFactory {
      
-     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+     Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
          FullTextSearch fullTextSearch
          if (FactoryBuilderSupport.checkValueIsTypeNotString(value, name, FullTextSearch.class)) {
              fullTextSearch = (FullTextSearch) value
@@ -59,6 +62,6 @@ public class FullTextSearchFactory extends AbstractQomFactory {
 			 }
              fullTextSearch = queryManager.qomFactory.fullTextSearch(selectorName, propertyName, fullTextSearchExpression)
          }
-         return fullTextSearch
+         fullTextSearch
      }
 }

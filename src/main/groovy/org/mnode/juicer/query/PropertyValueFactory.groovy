@@ -33,17 +33,19 @@ package org.mnode.juicer.query
 
 
 
-import javax.jcr.query.QueryManagerimport javax.jcr.query.qom.PropertyValue
+import javax.jcr.query.QueryManager
+import javax.jcr.query.qom.PropertyValue
+
 
 /**
  * @author Ben
  *
  */
-public class PropertyValueFactory extends AbstractQomFactory {
+class PropertyValueFactory extends AbstractQomFactory {
      
-     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+     Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
          PropertyValue propertyValue
-         if (FactoryBuilderSupport.checkValueIsTypeNotString(value, name, PropertyValue.class)) {
+         if (FactoryBuilderSupport.checkValueIsTypeNotString(value, name, PropertyValue)) {
              propertyValue = (PropertyValue) value
          }
          else {
@@ -51,6 +53,6 @@ public class PropertyValueFactory extends AbstractQomFactory {
              String propertyName = attributes.remove('propertyName')
              propertyValue = queryManager.qomFactory.propertyValue(selectorName, propertyName)
          }
-         return propertyValue
+         propertyValue
      }
 }

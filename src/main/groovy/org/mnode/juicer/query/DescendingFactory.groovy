@@ -33,7 +33,10 @@ package org.mnode.juicer.query
 
 
 
-import javax.jcr.query.QueryManagerimport javax.jcr.query.qom.Orderingimport javax.jcr.query.qom.DynamicOperand
+import javax.jcr.query.QueryManager
+import javax.jcr.query.qom.DynamicOperand
+import javax.jcr.query.qom.Ordering
+
 
 /**
  * @author Ben
@@ -41,15 +44,15 @@ import javax.jcr.query.QueryManagerimport javax.jcr.query.qom.Orderingimport j
  */
 public class DescendingFactory extends AbstractQomFactory {
      
-     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+     Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
          Ordering ordering
-         if (FactoryBuilderSupport.checkValueIsTypeNotString(value, name, Ordering.class)) {
+         if (FactoryBuilderSupport.checkValueIsTypeNotString(value, name, Ordering)) {
              ordering = (Ordering) value
          }
          else {
              DynamicOperand operand = attributes.remove('operand')
              ordering = queryManager.qomFactory.descending(operand)
          }
-         return ordering
+         ordering
      }
 }

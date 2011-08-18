@@ -33,17 +33,18 @@ package org.mnode.juicer.query
 
 
 
-import javax.jcr.Value;
-import javax.jcr.query.QueryManagerimport javax.jcr.query.qom.Literal;
+import javax.jcr.Value
+import javax.jcr.query.QueryManager
+import javax.jcr.query.qom.Literal
 
 
 /**
  * @author Ben
  *
  */
-public class LiteralFactory extends AbstractQomFactory {
+class LiteralFactory extends AbstractQomFactory {
      
-     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+     Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
          Literal literal
          if (value instanceof Literal) {
              literal = (Literal) value
@@ -52,6 +53,6 @@ public class LiteralFactory extends AbstractQomFactory {
              Value literalValue = value
              literal = queryManager.qomFactory.literal(literalValue)
          }
-         return literal
+         literal
      }
 }

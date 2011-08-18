@@ -33,17 +33,21 @@ package org.mnode.juicer.query
 
 
 
-import javax.jcr.query.QueryManagerimport javax.jcr.query.qom.DynamicOperandimport javax.jcr.query.qom.Comparisonimport javax.jcr.query.qom.StaticOperand
+import javax.jcr.query.QueryManager
+import javax.jcr.query.qom.Comparison
+import javax.jcr.query.qom.DynamicOperand
+import javax.jcr.query.qom.StaticOperand
+
 
 /**
  * @author Ben
  *
  */
-public class ComparisonFactory extends AbstractQomFactory {
+class ComparisonFactory extends AbstractQomFactory {
      
-     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+     Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
          Comparison comparison
-         if (FactoryBuilderSupport.checkValueIsTypeNotString(value, name, Comparison.class)) {
+         if (FactoryBuilderSupport.checkValueIsTypeNotString(value, name, Comparison)) {
              comparison = (Comparison) value
          }
          else {
@@ -53,6 +57,6 @@ public class ComparisonFactory extends AbstractQomFactory {
 //             StaticOperand operand2 = queryManager.qomFactory.literal(operand2Value)
              comparison = queryManager.qomFactory.comparison(operand1, operator, operand2)
          }
-         return comparison
+         comparison
      }
 }

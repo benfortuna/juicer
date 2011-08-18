@@ -31,7 +31,7 @@
  */
 package org.mnode.juicer
 
-import javax.jcr.NodeIterator;
+import javax.jcr.NodeIterator
 
 @Category(javax.jcr.Node)
 class JcrNodeCategory {
@@ -41,7 +41,7 @@ class JcrNodeCategory {
         if (this.hasProperty(propertyName)) {
             return this.getProperty(propertyName)
         }
-        return null
+        null
     }
     
     javax.jcr.Node getAt(int index) {
@@ -50,7 +50,7 @@ class JcrNodeCategory {
             children.skip index
             return children.nextNode()
         }
-        return null
+        null
     }
 
 //    static def propertyMissing(Node node, String propertyName, value) {
@@ -60,10 +60,10 @@ class JcrNodeCategory {
 //    }
 	
 	void rename(String newName) {
-		this.session.move(this.path, this.parent.path + "/" + newName)
+		this.session.move(this.path, this.parent.path + '/' + newName)
 	}
 	
 	void move(String newParentPath) {
-		this.session.move(this.path, newParentPath + "/" + this.name)
+		this.session.move(this.path, newParentPath + '/' + this.name)
 	}
 }

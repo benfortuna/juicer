@@ -33,17 +33,20 @@ package org.mnode.juicer.query
 
 
 
-import javax.jcr.query.qom.Andimport javax.jcr.query.qom.Constraintimport javax.jcr.query.QueryManager
+import javax.jcr.query.QueryManager
+import javax.jcr.query.qom.And
+import javax.jcr.query.qom.Constraint
+
 
 /**
  * @author Ben
  *
  */
-public class AndFactory extends AbstractQomFactory {
+class AndFactory extends AbstractQomFactory {
      
-     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+     Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
          And constraint
-         if (FactoryBuilderSupport.checkValueIsTypeNotString(value, name, And.class)) {
+         if (FactoryBuilderSupport.checkValueIsTypeNotString(value, name, And)) {
              constraint = (And) value
          }
          else {
@@ -51,6 +54,6 @@ public class AndFactory extends AbstractQomFactory {
              Constraint constraint2 = attributes.remove('constraint2')
              constraint = queryManager.qomFactory.and(constraint1, constraint2)
          }
-         return constraint
+         constraint
      }
 }

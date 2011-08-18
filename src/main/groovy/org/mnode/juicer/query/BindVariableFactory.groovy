@@ -33,23 +33,25 @@ package org.mnode.juicer.query
 
 
 
-import javax.jcr.query.QueryManagerimport javax.jcr.query.qom.BindVariableValue
+import javax.jcr.query.QueryManager
+import javax.jcr.query.qom.BindVariableValue
+
 
 /**
  * @author Ben
  *
  */
-public class BindVariableFactory extends AbstractQomFactory {
+class BindVariableFactory extends AbstractQomFactory {
      
-     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+     Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
          BindVariableValue bindVariable
-         if (FactoryBuilderSupport.checkValueIsTypeNotString(value, name, BindVariableValue.class)) {
+         if (FactoryBuilderSupport.checkValueIsTypeNotString(value, name, BindVariableValue)) {
              bindVariable = (BindVariableValue) value
          }
          else {
              String bindVariableName = value
              bindVariable = queryManager.qomFactory.bindVariable(bindVariableName)
          }
-         return bindVariable
+         bindVariable
      }
 }

@@ -31,9 +31,9 @@
  */
 package groovy.runtime.metaclass.javax.jcr
 
-import groovy.lang.DelegatingMetaClass;
-import groovy.transform.WithReadLock;
-import groovy.transform.WithWriteLock;
+import groovy.lang.DelegatingMetaClass
+import groovy.transform.WithReadLock
+import groovy.transform.WithWriteLock
 
 class NodeMetaClass extends DelegatingMetaClass {
 
@@ -53,15 +53,15 @@ class NodeMetaClass extends DelegatingMetaClass {
 
 	@WithWriteLock	
 	void rename (Object a, String newName) {
-		a.session.move(a.path, a.parent.path + "/" + newName)
+		a.session.move(a.path, a.parent.path + '/' + newName)
 	}
 
 	@WithWriteLock	
 	void move(Object a, String newParentPath) {
-		a.session.move(a.path, newParentPath + "/" + a.name)
+		a.session.move(a.path, newParentPath + '/' + a.name)
 	}
 	
-	public Object invokeMethod(Object a_object, String a_methodName, Object[] a_arguments) {
+	Object invokeMethod(Object a_object, String a_methodName, Object[] a_arguments) {
 		try {
 			super.invokeMethod(a_object, a_methodName, a_arguments)
 		}
@@ -79,7 +79,7 @@ class NodeMetaClass extends DelegatingMetaClass {
 	}
 
 	@WithReadLock
-	public Object getProperty(Object a, String key) {
+	Object getProperty(Object a, String key) {
 		try {
 			super.getProperty(a, key)
 		}

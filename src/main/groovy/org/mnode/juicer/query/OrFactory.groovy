@@ -33,18 +33,20 @@ package org.mnode.juicer.query
 
 
 
-import javax.jcr.query.qom.Constraintimport javax.jcr.query.qom.Or;
-import javax.jcr.query.QueryManager
+import javax.jcr.query.QueryManager
+import javax.jcr.query.qom.Constraint
+import javax.jcr.query.qom.Or
+
 
 /**
  * @author Ben
  *
  */
-public class OrFactory extends AbstractQomFactory {
+class OrFactory extends AbstractQomFactory {
      
-     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+     Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
          Or constraint
-         if (FactoryBuilderSupport.checkValueIsTypeNotString(value, name, Or.class)) {
+         if (FactoryBuilderSupport.checkValueIsTypeNotString(value, name, Or)) {
              constraint = (Or) value
          }
          else {
@@ -52,6 +54,6 @@ public class OrFactory extends AbstractQomFactory {
              Constraint constraint2 = attributes.remove('constraint2')
              constraint = queryManager.qomFactory.or(constraint1, constraint2)
          }
-         return constraint
+         constraint
      }
 }

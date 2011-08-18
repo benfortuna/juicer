@@ -31,10 +31,10 @@
  */
 package groovy.runtime.metaclass.javax.jcr
 
-import java.util.concurrent.locks.Lock;
-
-import groovy.lang.Closure;
+import groovy.lang.Closure
 import groovy.lang.DelegatingMetaClass
+
+import java.util.concurrent.locks.Lock
 
 class SessionMetaClass extends DelegatingMetaClass {
 	

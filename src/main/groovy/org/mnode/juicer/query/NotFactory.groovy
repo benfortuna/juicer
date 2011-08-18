@@ -33,18 +33,20 @@ package org.mnode.juicer.query
 
 
 
-import javax.jcr.query.qom.Constraintimport javax.jcr.query.qom.Not;
-import javax.jcr.query.QueryManager
+import javax.jcr.query.QueryManager
+import javax.jcr.query.qom.Constraint
+import javax.jcr.query.qom.Not
+
 
 /**
  * @author Ben
  *
  */
-public class NotFactory extends AbstractQomFactory {
+class NotFactory extends AbstractQomFactory {
      
-     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+     Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
          FactoryBuilderSupport.checkValueIsType(value, name, Constraint)
          Not constraint = queryManager.qomFactory.not(value)
-         return constraint
+         constraint
      }
 }

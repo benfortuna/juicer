@@ -42,13 +42,13 @@ import javax.jcr.query.qom.QueryObjectModelConstants
  * @author Ben
  *
  */
-public class QueryBuilder extends FactoryBuilderSupport {
+class QueryBuilder extends FactoryBuilderSupport {
 
-    public QueryBuilder(QueryManager queryManager) {
+    QueryBuilder(QueryManager queryManager) {
         this(queryManager, null)
     }
     
-    public QueryBuilder(QueryManager queryManager, ValueFactory valueFactory) {
+    QueryBuilder(QueryManager queryManager, ValueFactory valueFactory) {
         registerFactory('and', new AndFactory(queryManager: queryManager))
         registerFactory('or', new OrFactory(queryManager: queryManager))
         registerFactory('not', new NotFactory(queryManager: queryManager))

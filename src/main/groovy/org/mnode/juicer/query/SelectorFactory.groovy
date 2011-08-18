@@ -33,17 +33,19 @@ package org.mnode.juicer.query
 
 
 
-import javax.jcr.query.QueryManagerimport javax.jcr.query.qom.Selector
+import javax.jcr.query.QueryManager
+import javax.jcr.query.qom.Selector
+
 
 /**
  * @author Ben
  *
  */
-public class SelectorFactory extends AbstractQomFactory {
+class SelectorFactory extends AbstractQomFactory {
      
-     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
+     Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attributes) throws InstantiationException, IllegalAccessException {
          Selector selector
-         if (FactoryBuilderSupport.checkValueIsTypeNotString(value, name, Selector.class)) {
+         if (FactoryBuilderSupport.checkValueIsTypeNotString(value, name, Selector)) {
              selector = (Selector) value
          }
          else {
@@ -51,6 +53,6 @@ public class SelectorFactory extends AbstractQomFactory {
              String nodeType = attributes.remove('nodeType')
              selector = queryManager.qomFactory.selector(nodeType, selectorName)
          }
-         return selector
+         selector
      }
 }

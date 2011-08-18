@@ -35,7 +35,7 @@ package org.mnode.juicer.slurper
 
 class JcrNodeGPath {
     
-    private final javax.jcr.Node node;
+    private final javax.jcr.Node node
     
     JcrNodeGPath(javax.jcr.Node node) {
         this.node = node

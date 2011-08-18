@@ -31,25 +31,25 @@
  */
 package org.mnode.juicer.query
 
-import groovy.util.FactoryBuilderSupport;
+import groovy.util.FactoryBuilderSupport
 
-import java.util.Map;
+import java.util.Map
 
-import javax.jcr.query.qom.JoinCondition;
-import javax.jcr.query.qom.Source;
+import javax.jcr.query.qom.JoinCondition
+import javax.jcr.query.qom.Source
 
 class JoinFactory extends AbstractQomFactory {
 
 	String joinType
 	
-	public Object newInstance(FactoryBuilderSupport builder, Object name,
+	Object newInstance(FactoryBuilderSupport builder, Object name,
 			Object value, Map attributes) throws InstantiationException, IllegalAccessException {
 
 			Source source1 = attributes.remove('source1')
 			Source source2 = attributes.remove('source2')
 			JoinCondition condition = attributes.remove('condition')
 			
-			return queryManager.QOMFactory.join(source1, source2, joinType, condition)
+			queryManager.QOMFactory.join(source1, source2, joinType, condition)
 	}
 
 }

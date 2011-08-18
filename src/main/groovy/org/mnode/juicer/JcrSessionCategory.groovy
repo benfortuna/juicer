@@ -31,7 +31,7 @@
  */
 package org.mnode.juicer
 
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.ReentrantLock
 
 @Category(javax.jcr.Session)
 class JcrSessionCategory {
