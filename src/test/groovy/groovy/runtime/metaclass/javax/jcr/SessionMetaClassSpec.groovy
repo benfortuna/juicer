@@ -45,7 +45,7 @@ class SessionMetaClassSpec extends AbstractJcrSpec {
 		
 		and:
 		session.withLock(lock) {
-			def node = rootNode.addNode('testLockedNode')
+			rootNode.addNode('testLockedNode')
 		}
 		
 		expect:
@@ -59,6 +59,6 @@ class SessionMetaClassSpec extends AbstractJcrSpec {
 		}
 		
 		expect:
-		session.rootNode.testSessionSave.new == false
+		!session.hasPendingChanges()
 	}
 }
