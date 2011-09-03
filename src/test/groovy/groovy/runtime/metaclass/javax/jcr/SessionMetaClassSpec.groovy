@@ -51,4 +51,14 @@ class SessionMetaClassSpec extends AbstractJcrSpec {
 		expect:
 		assert session.rootNode.testLockedNode
 	}
+	
+	def 'verify session is saved'() {
+		setup:
+		session.save {
+			rootNode.addNode('testSessionSave')
+		}
+		
+		expect:
+		session.rootNode.testSessionSave.new == false
+	}
 }

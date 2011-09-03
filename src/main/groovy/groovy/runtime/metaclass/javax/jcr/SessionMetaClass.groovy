@@ -52,6 +52,11 @@ class SessionMetaClass extends DelegatingMetaClass {
 		}
 	}
 	
+	void save(Object a, Closure c) {
+		a.with c
+		a.save()
+	}
+	
 	Object invokeMethod(Object a_object, String a_methodName, Object[] a_arguments) {
 		try {
 			super.invokeMethod(a_object, a_methodName, a_arguments)
@@ -59,6 +64,9 @@ class SessionMetaClass extends DelegatingMetaClass {
 		catch (MissingMethodException e) {
 			if (a_methodName == 'withLock') {
 				withLock(a_object, a_arguments[0], a_arguments[1])
+			}
+			else if (a_methodName == 'save') {
+				save(a_object, a_arguments[0])
 			}
 			else {
 				throw e
