@@ -53,12 +53,12 @@ class NodeMetaClass extends DelegatingMetaClass {
 
 	@WithWriteLock	
 	void rename (Object a, String newName) {
-		a.session.move(a.path, a.parent.path + '/' + newName)
+		a.session.move(a.path, "$a.parent.path/$newName")
 	}
 
 	@WithWriteLock	
 	void move(Object a, String newParentPath) {
-		a.session.move(a.path, newParentPath + '/' + a.name)
+		a.session.move(a.path, "$newParentPath/$a.name")
 	}
 	
 	Object invokeMethod(Object a_object, String a_methodName, Object[] a_arguments) {
