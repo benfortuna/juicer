@@ -54,13 +54,13 @@ class SessionMetaClass extends DelegatingMetaClass {
 		}
 	}
 	
-	void save(Object a, Closure c) {
+	void save(Object a, boolean keepChanges = false, Closure c) {
 		try {
 			a.with c
 			a.save()
 		}
 		catch (RepositoryException re) {
-			a.refresh(false)
+			a.refresh(keepChanges)
 			throw re
 		}
 	}
@@ -74,7 +74,12 @@ class SessionMetaClass extends DelegatingMetaClass {
 				withLock(a_object, a_arguments[0], a_arguments[1])
 			}
 			else if (a_methodName == 'save') {
-				save(a_object, a_arguments[0])
+				if (a_arguments.length > 1) {
+					save(a_object, a_arguments[0], a_arguments[1])
+				}
+				else {
+					save(a_object, a_arguments[0])
+				}
 			}
 			else {
 				throw e

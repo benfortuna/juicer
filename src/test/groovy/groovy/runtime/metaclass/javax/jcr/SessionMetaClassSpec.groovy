@@ -66,7 +66,7 @@ class SessionMetaClassSpec extends AbstractJcrSpec {
 		!session.hasPendingChanges()
 	}
 	
-	def 'verify session is NOT saved'() {
+	def 'verify session is NOT saved on exception'() {
 		setup:
 		try {
 			session.save {
@@ -80,5 +80,21 @@ class SessionMetaClassSpec extends AbstractJcrSpec {
 		
 		expect:
 		!session.hasPendingChanges() && session.rootNode['testSessionNotSaved'] == null
+	}
+	
+	def 'verify session changes are preserved on exception'() {
+		setup:
+		try {
+			session.save(true) {
+				rootNode.addNode('testSessionPreserved')
+				throw new RepositoryException()
+			}
+		}
+		catch (RepositoryException re) {
+			log.info "Caught exception $re"
+		}
+		
+		expect:
+		session.hasPendingChanges() && session.rootNode['testSessionPreserved'] != null
 	}
 }
