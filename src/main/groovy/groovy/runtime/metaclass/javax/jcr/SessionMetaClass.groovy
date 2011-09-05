@@ -36,6 +36,8 @@ import groovy.lang.DelegatingMetaClass
 
 import java.util.concurrent.locks.Lock
 
+import javax.jcr.RepositoryException;
+
 class SessionMetaClass extends DelegatingMetaClass {
 	
 	SessionMetaClass(MetaClass delegate) {
@@ -53,8 +55,14 @@ class SessionMetaClass extends DelegatingMetaClass {
 	}
 	
 	void save(Object a, Closure c) {
-		a.with c
-		a.save()
+		try {
+			a.with c
+			a.save()
+		}
+		catch (RepositoryException re) {
+			a.refresh(false)
+			throw re
+		}
 	}
 	
 	Object invokeMethod(Object a_object, String a_methodName, Object[] a_arguments) {

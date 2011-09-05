@@ -31,12 +31,16 @@
  */
 package groovy.runtime.metaclass.javax.jcr
 
+import groovy.util.logging.Log
+
 import java.util.concurrent.locks.ReentrantLock
 
+import javax.jcr.RepositoryException
 import javax.jcr.Session
 
 import org.mnode.juicer.AbstractJcrSpec
 
+@Log
 class SessionMetaClassSpec extends AbstractJcrSpec {
 
 	def 'verify closure is executed with lock'() {
@@ -60,5 +64,21 @@ class SessionMetaClassSpec extends AbstractJcrSpec {
 		
 		expect:
 		!session.hasPendingChanges()
+	}
+	
+	def 'verify session is NOT saved'() {
+		setup:
+		try {
+			session.save {
+				rootNode.addNode('testSessionNotSaved')
+				throw new RepositoryException()
+			}
+		}
+		catch (RepositoryException re) {
+			log.info "Caught exception $re"
+		}
+		
+		expect:
+		!session.hasPendingChanges() && session.rootNode['testSessionNotSaved'] == null
 	}
 }
