@@ -54,13 +54,13 @@ class SessionMetaClass extends DelegatingMetaClass {
 		}
 	}
 	
-	void save(Object a, boolean keepChanges = false, Closure c) {
+	void save(Object a, boolean rollbackOnException = true, Closure c) {
 		try {
 			a.with c
 			a.save()
 		}
 		catch (RepositoryException re) {
-			a.refresh(keepChanges)
+			a.refresh(!rollbackOnException)
 			throw re
 		}
 	}

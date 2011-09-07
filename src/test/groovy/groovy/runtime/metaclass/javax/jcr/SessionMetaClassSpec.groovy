@@ -85,7 +85,7 @@ class SessionMetaClassSpec extends AbstractJcrSpec {
 	def 'verify session changes are preserved on exception'() {
 		setup:
 		try {
-			session.save(true) {
+			session.save(false) {
 				rootNode.addNode('testSessionPreserved')
 				throw new RepositoryException()
 			}
