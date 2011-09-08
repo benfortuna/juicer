@@ -32,6 +32,7 @@
 package groovy.runtime.metaclass.javax.jcr
 
 import groovy.util.logging.Log
+import groovyx.gpars.GParsPool;
 
 import java.util.concurrent.locks.ReentrantLock
 
@@ -48,12 +49,18 @@ class SessionMetaClassSpec extends AbstractJcrSpec {
 		def lock = new ReentrantLock()
 		
 		and:
-		session.withLock(lock) {
-			rootNode.addNode('testLockedNode')
+		GParsPool.withPool {
+			1..100.eachParallel { id ->
+				session.withLock(lock) {
+					rootNode.addNode("testLockedNode$id")
+				}
+			}
 		}
 		
 		expect:
-		assert session.rootNode.testLockedNode
+		1..100.each {
+			assert session.rootNode["testLockedNode$it"]
+		}
 	}
 	
 	def 'verify session is saved'() {
