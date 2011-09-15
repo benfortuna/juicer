@@ -3,7 +3,7 @@
 	<parent>
 		<artifactId>base-parent</artifactId>
 		<groupId>org.mnode.base</groupId>
-		<version>0.0.2-SNAPSHOT</version>
+		<version>0.0.3-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.mnode.juicer</groupId>
@@ -98,7 +98,7 @@
 			</plugin>
 			
 	        <plugin>
-	            <groupId>com.google.code.maven-license-plugin</groupId>
+	            <groupId>com.mycila.maven-license-plugin</groupId>
 	            <artifactId>maven-license-plugin</artifactId>
 	        </plugin>
 	        
