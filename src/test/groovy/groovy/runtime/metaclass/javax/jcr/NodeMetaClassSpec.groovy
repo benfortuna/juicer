@@ -31,9 +31,13 @@
  */
 package groovy.runtime.metaclass.javax.jcr
 
-import javax.jcr.Session
+import java.util.concurrent.TimeUnit;
 
-import org.apache.poi.hssf.record.formula.functions.T
+import groovyx.gpars.GParsPool;
+
+import javax.jcr.Session
+import javax.jcr.observation.EventListener
+
 import org.mnode.juicer.AbstractJcrSpec
 
 class NodeMetaClassSpec extends AbstractJcrSpec {
@@ -73,5 +77,28 @@ class NodeMetaClassSpec extends AbstractJcrSpec {
 		
 		expect: 'check node is moved as expected'
 		assert session.getNode('/testMoveNode2/testMoveNode')
+	}
+	
+	def 'verify property access supports concurrency'() {
+		setup: 'add a listener'
+		session.workspace.observationManager.addEventListener({ it.each { evt -> println "$evt.type:$evt.path"}}  as EventListener, 1 | 4 | 16, '/', true, null, null, false)
+
+		and: 'add a new node'
+		def node = session.rootNode.addNode('testNode')
+		
+		and: 'set a property value'
+//		node.setProperty 'testProperty', 'testValue'
+		node['testProperty'] = 'testValue'
+		
+		expect: 'assert property value is returned'
+		GParsPool.withPool {
+			1..100.each { id ->
+				session.save {
+					node.testProperty = "testValue$id"
+				}
+			}
+		}
+		
+		TimeUnit.SECONDS.sleep(1)
 	}
 }
