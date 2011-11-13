@@ -54,7 +54,7 @@ class SessionMetaClass extends DelegatingMetaClass {
 		}
 	}
 	
-	void save(Object a, boolean rollbackOnException = true, Closure c) {
+	void save(javax.jcr.Session a, boolean rollbackOnException = true, Closure c) {
 		try {
 			a.with c
 			a.save()
