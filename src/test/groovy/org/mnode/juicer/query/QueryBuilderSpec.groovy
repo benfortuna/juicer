@@ -34,7 +34,6 @@ package org.mnode.juicer.query
 import javax.jcr.Session
 import javax.jcr.query.qom.QueryObjectModelConstants
 
-import org.apache.poi.hssf.record.formula.functions.T
 import org.mnode.juicer.AbstractJcrSpec
 
 class QueryBuilderSpec extends AbstractJcrSpec {

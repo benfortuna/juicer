@@ -33,7 +33,6 @@ package org.mnode.juicer
 
 import javax.jcr.Session
 
-import org.apache.poi.hssf.record.formula.functions.T
 
 class JcrNodeCategorySpec extends AbstractJcrSpec {
 	
