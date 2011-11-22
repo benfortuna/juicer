@@ -31,6 +31,10 @@
  */
 package groovy.runtime.metaclass.javax.jcr
 
+import java.security.MessageDigest;
+
+import org.bouncycastle.util.encoders.Hex;
+
 import groovy.lang.DelegatingMetaClass
 import groovy.transform.WithReadLock
 import groovy.transform.WithWriteLock
@@ -61,6 +65,25 @@ class NodeMetaClass extends DelegatingMetaClass {
 		a.session.move(a.path, "$newParentPath/$a.name")
 	}
 	
+	javax.jcr.Node attach(javax.jcr.Node node, File attachment) {
+		String hash = new String(Hex.encode(MessageDigest.getInstance('md5').digest(attachment.bytes)))
+		if (node.hasNode(hash)) {
+			node.getNode hash
+		}
+		else {
+			javax.jcr.Node aNode = node.addNode(hash, 'nt:file')
+			javax.jcr.Node rNode = aNode.addNode('jcr:content', 'nt:resource')
+			rNode['jcr:mimeType'] = 'text/plain'
+			rNode['jcr:encoding'] = 'UTF-8'
+			rNode['jcr:data'] = node.session.valueFactory.createBinary attachment.newInputStream()
+			Calendar lastModified = Calendar.instance
+			lastModified.timeInMillis = attachment.lastModified()
+			rNode['jcr:lastModified'] = lastModified
+			
+			aNode
+		}
+	}
+	
 	Object invokeMethod(Object a_object, String a_methodName, Object[] a_arguments) {
 		try {
 			super.invokeMethod(a_object, a_methodName, a_arguments)
@@ -71,6 +94,9 @@ class NodeMetaClass extends DelegatingMetaClass {
 			}
 			else if (a_methodName == 'rename') {
 				rename(a_object, a_arguments[0])
+			}
+			else if (a_methodName == 'attach') {
+				attach(a_object, a_arguments[0])
 			}
 			else {
 				throw e
