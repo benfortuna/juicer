@@ -110,13 +110,13 @@ class NodeMetaClassSpec extends AbstractJcrSpec {
         javax.jcr.Node node = session.rootNode.addNode('testFileAttachment')
 		
 		and: 'attach a file'
-		javax.jcr.Node aNode = node.attach new File('LICENSE')
+		javax.jcr.Node aNode = node.attach new File('pom.xml')
 		
 		and: 'attach the same file again'
-		node.attach new File('LICENSE')
+		node.attach new File('pom.xml')
 
 		expect:
-		aNode['jcr:content']['jcr:mimeType'].string == 'text/plain'
+		aNode['jcr:content']['jcr:mimeType'].string == 'text/xml'
 		node.nodes.size == 1
 	}
 }

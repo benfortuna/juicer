@@ -35,6 +35,8 @@ import java.security.MessageDigest;
 
 import org.bouncycastle.util.encoders.Hex;
 
+import eu.medsea.mimeutil.MimeUtil;
+
 import groovy.lang.DelegatingMetaClass
 import groovy.transform.WithReadLock
 import groovy.transform.WithWriteLock
@@ -43,6 +45,7 @@ class NodeMetaClass extends DelegatingMetaClass {
 
 	NodeMetaClass(MetaClass delegate) {
 		super(delegate)
+		MimeUtil.registerMimeDetector('eu.medsea.mimeutil.detector.ExtensionMimeDetector')
 	}
 
 	@WithWriteLock
@@ -73,7 +76,7 @@ class NodeMetaClass extends DelegatingMetaClass {
 		else {
 			javax.jcr.Node aNode = node.addNode(hash, 'nt:file')
 			javax.jcr.Node rNode = aNode.addNode('jcr:content', 'nt:resource')
-			rNode['jcr:mimeType'] = 'text/plain'
+			rNode['jcr:mimeType'] = MimeUtil.getMimeTypes(attachment).iterator().next() as String
 			rNode['jcr:encoding'] = 'UTF-8'
 			rNode['jcr:data'] = node.session.valueFactory.createBinary attachment.newInputStream()
 			Calendar lastModified = Calendar.instance
