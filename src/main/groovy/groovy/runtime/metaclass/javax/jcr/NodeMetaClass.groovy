@@ -31,12 +31,6 @@
  */
 package groovy.runtime.metaclass.javax.jcr
 
-import java.security.MessageDigest;
-
-import org.bouncycastle.util.encoders.Hex;
-
-import eu.medsea.mimeutil.MimeUtil;
-
 import groovy.lang.DelegatingMetaClass
 import groovy.transform.WithReadLock
 import groovy.transform.WithWriteLock
@@ -45,7 +39,7 @@ class NodeMetaClass extends DelegatingMetaClass {
 
 	NodeMetaClass(MetaClass delegate) {
 		super(delegate)
-		MimeUtil.registerMimeDetector('eu.medsea.mimeutil.detector.ExtensionMimeDetector')
+//		MimeUtil.registerMimeDetector('eu.medsea.mimeutil.detector.ExtensionMimeDetector')
 	}
 
 	@WithWriteLock
@@ -67,7 +61,7 @@ class NodeMetaClass extends DelegatingMetaClass {
 	void move(Object a, String newParentPath) {
 		a.session.move(a.path, "$newParentPath/$a.name")
 	}
-	
+	/*
 	javax.jcr.Node attach(javax.jcr.Node node, File attachment) {
 		String hash = new String(Hex.encode(MessageDigest.getInstance('md5').digest(attachment.bytes)))
 		if (node.hasNode(hash)) {
@@ -76,8 +70,23 @@ class NodeMetaClass extends DelegatingMetaClass {
 		else {
 			javax.jcr.Node aNode = node.addNode(hash, 'nt:file')
 			javax.jcr.Node rNode = aNode.addNode('jcr:content', 'nt:resource')
-			rNode['jcr:mimeType'] = MimeUtil.getMimeTypes(attachment).iterator().next() as String
-			rNode['jcr:encoding'] = 'UTF-8'
+			def mimeType = MimeUtil.getMimeTypes(attachment).iterator().next()
+			rNode['jcr:mimeType'] = mimeType as String
+			// XXX: not detecting text mime type..
+			if (MimeUtil.isTextMimeType(mimeType)) {
+				UniversalDetector detector = [null]
+				attachment.withInputStream { fis ->
+					byte[] buf = new byte[4096]
+					int nread
+					while ((nread = fis.read(buf)) > 0 && !detector.isDone()) {
+						detector.handleData(buf, 0, nread)
+					}
+				}
+				detector.dataEnd()
+				if (detector.detectedCharset) {
+					rNode['jcr:encoding'] = detector.detectedCharset
+				}
+			}
 			rNode['jcr:data'] = node.session.valueFactory.createBinary attachment.newInputStream()
 			Calendar lastModified = Calendar.instance
 			lastModified.timeInMillis = attachment.lastModified()
@@ -86,7 +95,7 @@ class NodeMetaClass extends DelegatingMetaClass {
 			aNode
 		}
 	}
-	
+	*/
 	Object invokeMethod(Object a_object, String a_methodName, Object[] a_arguments) {
 		try {
 			super.invokeMethod(a_object, a_methodName, a_arguments)
@@ -98,9 +107,9 @@ class NodeMetaClass extends DelegatingMetaClass {
 			else if (a_methodName == 'rename') {
 				rename(a_object, a_arguments[0])
 			}
-			else if (a_methodName == 'attach') {
-				attach(a_object, a_arguments[0])
-			}
+//			else if (a_methodName == 'attach') {
+//				attach(a_object, a_arguments[0])
+//			}
 			else {
 				throw e
 			}

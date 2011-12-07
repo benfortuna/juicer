@@ -31,17 +31,14 @@
  */
 package groovy.runtime.metaclass.javax.jcr
 
-import java.beans.javax_swing_border_MatteBorder_PersistenceDelegate;
-import java.util.concurrent.TimeUnit;
+import groovyx.gpars.GParsPool
 
-import groovyx.gpars.GParsPool;
+import java.util.concurrent.TimeUnit
 
 import javax.jcr.Session
 import javax.jcr.observation.EventListener
 
 import org.mnode.juicer.AbstractJcrSpec
-
-import spock.lang.IgnoreRest;
 
 class NodeMetaClassSpec extends AbstractJcrSpec {
 
@@ -104,7 +101,7 @@ class NodeMetaClassSpec extends AbstractJcrSpec {
 		
 		TimeUnit.SECONDS.sleep(1)
 	}
-	
+	/*
 	def 'verify file is attached'() {
 		setup: 'create a new node'
         javax.jcr.Node node = session.rootNode.addNode('testFileAttachment')
@@ -117,6 +114,8 @@ class NodeMetaClassSpec extends AbstractJcrSpec {
 
 		expect:
 		aNode['jcr:content']['jcr:mimeType'].string == 'text/xml'
+		aNode['jcr:content']['jcr:encoding']?.string == 'UTF-8'
 		node.nodes.size == 1
 	}
+	*/
 }
