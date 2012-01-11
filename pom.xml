@@ -12,13 +12,6 @@
 	<description>JCR extraction utilities</description>
 	<inceptionYear>2010</inceptionYear>
 	
-	<licenses>
-		<license>
-			<name>Juicer - License</name>
-			<url>${pom.url}/license.html</url>
-		</license>
-	</licenses>
-	
 	<scm>
 		<connection>scm:hg:https://juicer.googlecode.com/hg/</connection>
 		<developerConnection>scm:hg:https://juicer.googlecode.com/hg/</developerConnection>
