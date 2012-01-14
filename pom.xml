@@ -2,7 +2,7 @@
 	<parent>
 		<artifactId>mnode-parent</artifactId>
 		<groupId>org.mnode</groupId>
-		<version>1.5</version>
+		<version>1.6</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.mnode.juicer</groupId>
@@ -19,9 +19,9 @@
 	</licenses>
 	
 	<scm>
-		<connection>scm:hg:https://juicer.googlecode.com/hg/</connection>
-		<developerConnection>scm:hg:https://juicer.googlecode.com/hg/</developerConnection>
-		<url>https://code.google.com/p/juicer/source/browse/</url>
+		<connection>scm:hg:https://juicer.googlecode.com/hg</connection>
+		<developerConnection>scm:hg:https://juicer.googlecode.com/hg</developerConnection>
+		<url>https://code.google.com/p/juicer/source/browse</url>
 	</scm>
 
 	<dependencies>
@@ -104,25 +104,10 @@
 	
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.codehaus.gmaven</groupId>
-				<artifactId>gmaven-plugin</artifactId>
-			</plugin>
-			
 	        <plugin>
 	            <groupId>com.mycila.maven-license-plugin</groupId>
 	            <artifactId>maven-license-plugin</artifactId>
 	        </plugin>
-	        
-            <plugin>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <includes>
-                        <include>**/*Test.java</include>
-                        <include>**/*Spec.java</include>
-                    </includes>
-                </configuration>
-            </plugin>
 		</plugins>
 	</build>
 </project>
