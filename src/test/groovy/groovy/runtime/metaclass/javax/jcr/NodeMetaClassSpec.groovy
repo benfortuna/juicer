@@ -118,4 +118,15 @@ class NodeMetaClassSpec extends AbstractJcrSpec {
 		node.nodes.size == 1
 	}
 	*/
+	
+	def 'verify node is added once'() {
+		setup: 'append multiple nodes'
+		def testNode = session.rootNode << 'testNode'
+		['node1', 'node2', 'node2', 'node3'].each {
+			testNode << it
+		}
+		
+		expect: 'should not have duplicate nodes'
+		assert session.rootNode['testNode'].nodes.size == 3
+	}
 }

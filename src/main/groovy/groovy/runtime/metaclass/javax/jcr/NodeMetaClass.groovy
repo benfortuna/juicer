@@ -110,6 +110,9 @@ class NodeMetaClass extends DelegatingMetaClass {
 //			else if (a_methodName == 'attach') {
 //				attach(a_object, a_arguments[0])
 //			}
+			else if (a_methodName == 'leftShift') {
+				leftShift(a_object, a_arguments[0])
+			}
 			else {
 				throw e
 			}
@@ -131,6 +134,15 @@ class NodeMetaClass extends DelegatingMetaClass {
 //			else {
 //				throw e
 //			}
+		}
+	}
+	
+	javax.jcr.Node leftShift(javax.jcr.Node node, String relPath) {
+		if (node.hasNode(relPath)) {
+			return node.getNode(relPath)
+		}
+		else {
+			return node.addNode(relPath)
 		}
 	}
 }
