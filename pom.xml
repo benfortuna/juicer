@@ -2,7 +2,7 @@
 	<parent>
 		<artifactId>mnode-parent</artifactId>
 		<groupId>org.mnode</groupId>
-		<version>1.7</version>
+		<version>1.9</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.mnode.juicer</groupId>
@@ -42,7 +42,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<type>jar</type>
+			<scope>test</scope>
 		</dependency>
         <dependency>
             <groupId>org.spockframework</groupId>
@@ -58,6 +58,7 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>jul-to-slf4j</artifactId>
+            <scope>test</scope>
         </dependency>
         <!-- 
         <dependency>
@@ -77,6 +78,7 @@
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
+        <!-- 
         <dependency>
         	<groupId>org.bouncycastle</groupId>
         	<artifactId>bcprov-jdk16</artifactId>
@@ -99,6 +101,7 @@
 			<artifactId>juniversalchardet</artifactId>
 			<version>1.0.3</version>
 		</dependency>
+		 -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-beans</artifactId>
