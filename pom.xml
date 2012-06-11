@@ -13,7 +13,7 @@
 	<inceptionYear>2010</inceptionYear>
 	<licenses>
 		<license>
-            <name>${pom.name} - License</name>
+            <name>${project.name} - License</name>
 			<url>https://juicer.googlecode.com/hg/LICENSE</url>
 		</license>
 	</licenses>
