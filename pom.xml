@@ -126,7 +126,13 @@
 	            <groupId>com.mycila.maven-license-plugin</groupId>
 	            <artifactId>maven-license-plugin</artifactId>
 	        </plugin>
-			
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>codenarc-maven-plugin</artifactId>
+				<version>0.17-1</version>
+			</plugin>
+      
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
