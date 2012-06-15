@@ -39,15 +39,18 @@ import groovy.runtime.metaclass.javax.jcr.SessionMetaClass;
 
 public class CustomMetaClassCreationHandle extends MetaClassCreationHandle {
 	
-	protected MetaClass createNormalMetaClass(@SuppressWarnings("rawtypes") Class theClass, MetaClassRegistry registry) {
+	protected MetaClass createNormalMetaClass(@SuppressWarnings("rawtypes") Class theClass,
+			MetaClassRegistry registry) {
+		MetaClass metaClass;
 		if (theClass != null && javax.jcr.Node.class.isAssignableFrom(theClass)) {
-			return new NodeMetaClass(super.createNormalMetaClass(theClass, registry));
+			metaClass = new NodeMetaClass(super.createNormalMetaClass(theClass, registry));
 		}
 		else if (theClass != null && javax.jcr.Session.class.isAssignableFrom(theClass)) {
-			return new SessionMetaClass(super.createNormalMetaClass(theClass, registry));
+			metaClass = new SessionMetaClass(super.createNormalMetaClass(theClass, registry));
 		}
 		else {
-			return super.createNormalMetaClass(theClass, registry);
+			metaClass = super.createNormalMetaClass(theClass, registry);
 		}
+		return metaClass;
 	}
 }
