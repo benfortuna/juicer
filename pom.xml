@@ -122,6 +122,26 @@
 	
 	<build>
 		<plugins>
+<plugin>
+                                <groupId>org.apache.felix</groupId>
+                                <artifactId>maven-bundle-plugin</artifactId>
+                                <executions>
+                                        <execution>
+                                                <id>bundle-manifest</id>
+                                                <phase>process-classes</phase>
+                                                <goals>
+                                                        <goal>manifest</goal>
+                                                </goals>
+                                        </execution>
+                                </executions>
+                                <configuration>
+                                        <instructions>
+                                                <Export-Package>org.mnode.juicer.*</Export-Package>
+                                                <Import-Package>org.mnode.juicer.*,*;resolution:=optional</Import-Package>
+                                        </instructions>
+                                </configuration>
+                        </plugin>
+
 	        <plugin>
 	            <groupId>com.mycila.maven-license-plugin</groupId>
 	            <artifactId>maven-license-plugin</artifactId>
