@@ -74,7 +74,7 @@
         <dependency>
             <groupId>org.codehaus.gpars</groupId>
             <artifactId>gpars</artifactId>
-            <version>0.12</version>
+            <version>1.0-beta-2</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
@@ -105,7 +105,7 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-beans</artifactId>
-			<version>3.1.0.RELEASE</version>
+			<version>3.1.1.RELEASE</version>
 			<optional>true</optional>
 		</dependency>
 		
