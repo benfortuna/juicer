@@ -29,32 +29,47 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package groovy.runtime.metaclass;
+package groovy.runtime.metaclass.javax.jcr
 
+import javax.jcr.Value;
+
+import groovy.lang.DelegatingMetaClass
 import groovy.lang.MetaClass;
-import groovy.lang.MetaClassRegistry;
-import groovy.lang.MetaClassRegistry.MetaClassCreationHandle;
-import groovy.runtime.metaclass.javax.jcr.NodeMetaClass;
-import groovy.runtime.metaclass.javax.jcr.PropertyMetaClass;
-import groovy.runtime.metaclass.javax.jcr.SessionMetaClass;
 
-public class CustomMetaClassCreationHandle extends MetaClassCreationHandle {
+class PropertyMetaClass extends DelegatingMetaClass {
+
+	PropertyMetaClass(MetaClass delegate) {
+		super(delegate)
+	}
 	
-	protected MetaClass createNormalMetaClass(@SuppressWarnings("rawtypes") Class theClass,
-			MetaClassRegistry registry) {
-		MetaClass metaClass;
-		if (theClass != null && javax.jcr.Node.class.isAssignableFrom(theClass)) {
-			metaClass = new NodeMetaClass(super.createNormalMetaClass(theClass, registry));
+	Object invokeMethod(Object a_object, String a_methodName, Object[] a_arguments) {
+		try {
+			super.invokeMethod(a_object, a_methodName, a_arguments)
 		}
-		else if (theClass != null && javax.jcr.Session.class.isAssignableFrom(theClass)) {
-			metaClass = new SessionMetaClass(super.createNormalMetaClass(theClass, registry));
+		catch (MissingMethodException e) {
+			if (a_methodName == 'leftShift') {
+				leftShift(a_object, a_arguments[0])
+			}
+			else {
+				throw e
+			}
 		}
-		else if (theClass != null && javax.jcr.Property.class.isAssignableFrom(theClass)) {
-			metaClass = new PropertyMetaClass(super.createNormalMetaClass(theClass, registry));
+	}
+	
+	javax.jcr.Value[] leftShift(javax.jcr.Property property, Object value) {
+		def values = []
+		if (property.multiple) {
+			values << property.values
 		}
 		else {
-			metaClass = super.createNormalMetaClass(theClass, registry);
+			values << property.value
 		}
-		return metaClass;
+		values << property.session.valueFactory.createValue(value)
+//		property.setValue(values as Value[])
+		def propName = property.name
+		def parent = property.parent
+		property.remove()
+		parent[propName] = values as Value[]
+		parent[propName].values
 	}
 }

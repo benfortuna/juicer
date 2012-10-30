@@ -29,32 +29,22 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package groovy.runtime.metaclass;
+package groovy.runtime.metaclass.javax.jcr
 
-import groovy.lang.MetaClass;
-import groovy.lang.MetaClassRegistry;
-import groovy.lang.MetaClassRegistry.MetaClassCreationHandle;
-import groovy.runtime.metaclass.javax.jcr.NodeMetaClass;
-import groovy.runtime.metaclass.javax.jcr.PropertyMetaClass;
-import groovy.runtime.metaclass.javax.jcr.SessionMetaClass;
+import org.mnode.juicer.AbstractJcrSpec
 
-public class CustomMetaClassCreationHandle extends MetaClassCreationHandle {
-	
-	protected MetaClass createNormalMetaClass(@SuppressWarnings("rawtypes") Class theClass,
-			MetaClassRegistry registry) {
-		MetaClass metaClass;
-		if (theClass != null && javax.jcr.Node.class.isAssignableFrom(theClass)) {
-			metaClass = new NodeMetaClass(super.createNormalMetaClass(theClass, registry));
-		}
-		else if (theClass != null && javax.jcr.Session.class.isAssignableFrom(theClass)) {
-			metaClass = new SessionMetaClass(super.createNormalMetaClass(theClass, registry));
-		}
-		else if (theClass != null && javax.jcr.Property.class.isAssignableFrom(theClass)) {
-			metaClass = new PropertyMetaClass(super.createNormalMetaClass(theClass, registry));
-		}
-		else {
-			metaClass = super.createNormalMetaClass(theClass, registry);
-		}
-		return metaClass;
+class PropertyMetaClassSpec extends AbstractJcrSpec {
+
+	def 'verify property value is appended'() {
+		setup: 'add a new node'
+		def node = session.rootNode.addNode('testNode')
+		
+		and: 'set a property value'
+		node['testProperty'] = 'testValue'
+		
+		expect: 'assert property value is appended and returned'
+//		assert node['testProperty'].values.length == 1
+		node['testProperty'] << 'testValue2'
+		assert node['testProperty'].values.length == 2
 	}
 }
