@@ -31,9 +31,10 @@
  */
 package groovy.runtime.metaclass.javax.jcr
 
-import groovy.lang.DelegatingMetaClass
 import groovy.transform.WithReadLock
 import groovy.transform.WithWriteLock
+
+import javax.jcr.Value
 
 class NodeMetaClass extends DelegatingMetaClass {
 
@@ -48,7 +49,16 @@ class NodeMetaClass extends DelegatingMetaClass {
 			super.setProperty(a, propertyName, value)
 		}
 		catch (MissingPropertyException e) {
-			a.setProperty propertyName, value
+            if (value instanceof ArrayList) {
+                def values = []
+                value.each {
+                    values << a.session.valueFactory.createValue(it)
+                }
+                a.setProperty propertyName, values as Value[]
+            }
+            else {
+                a.setProperty propertyName, value
+            }
 		}
 	}
 

@@ -47,4 +47,33 @@ class PropertyMetaClassSpec extends AbstractJcrSpec {
 		node['testProperty'] << 'testValue2'
 		assert node['testProperty'].values.length == 2
 	}
+    
+    def 'verify nodes property is supported for a single reference'() {
+        setup: 'add a new node'
+        def node = session.rootNode.addNode('testNode')
+        def referenced = session.rootNode.addNode('referencedNode')
+        referenced.addMixin('mix:versionable')
+        
+        and: 'set a property value'
+        node['testReference'] = referenced
+        
+        expect: 'assert referenced node is returned'
+        assert node['testReference'].nodes[0].isSame(referenced)
+    }
+    
+    def 'verify nodes property is supported for a multiple references'() {
+        setup: 'add a new node'
+        def node = session.rootNode.addNode('testNode')
+        def referenced = session.rootNode.addNode('referencedNode')
+        referenced.addMixin('mix:versionable')
+        def referenced2 = session.rootNode.addNode('referencedNode2')
+        referenced2.addMixin('mix:versionable')
+
+        and: 'set a property value'
+        node['testReference'] = [referenced, referenced2]
+        
+        expect: 'assert referenced node is returned'
+        assert node['testReference'].nodes[0].isSame(referenced)
+        assert node['testReference'].nodes[1].isSame(referenced2)
+    }
 }

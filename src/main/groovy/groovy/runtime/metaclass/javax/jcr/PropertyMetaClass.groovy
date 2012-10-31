@@ -31,10 +31,11 @@
  */
 package groovy.runtime.metaclass.javax.jcr
 
-import javax.jcr.Value;
+import groovy.transform.WithReadLock
 
-import groovy.lang.DelegatingMetaClass
-import groovy.lang.MetaClass;
+import javax.jcr.Property
+import javax.jcr.PropertyType
+import javax.jcr.Value
 
 class PropertyMetaClass extends DelegatingMetaClass {
 
@@ -72,4 +73,30 @@ class PropertyMetaClass extends DelegatingMetaClass {
 		parent[propName] = values as Value[]
 		parent[propName].values
 	}
+    
+    @WithReadLock
+    Object getProperty(Object property, String name) {
+        try {
+            super.getProperty(property, name)
+        }
+        catch (MissingPropertyException e) {
+            if (name == 'nodes'
+                && [PropertyType.REFERENCE, PropertyType.WEAKREFERENCE, PropertyType.PATH].contains(property.type)) {
+                
+                def nodes = []
+                if (property.multiple) {
+                    property.values.each {
+                        nodes << property.session.getNodeByUUID(it.string)
+                    }
+                }
+                else {
+                    nodes << property.getNode()
+                }
+                nodes as javax.jcr.Node[]
+            }
+            else {
+                throw e
+            }
+        }
+    }
 }
