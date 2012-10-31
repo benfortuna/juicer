@@ -60,12 +60,15 @@ class PropertyMetaClass extends DelegatingMetaClass {
 	javax.jcr.Value[] leftShift(javax.jcr.Property property, Object value) {
 		def values = []
 		if (property.multiple) {
-			values << property.values
+			values.addAll property.values
 		}
 		else {
 			values << property.value
 		}
-		values << property.session.valueFactory.createValue(value)
+		def newValue = property.session.valueFactory.createValue(value)
+        if (!values.contains(newValue)) {
+            values << newValue
+        }
 //		property.setValue(values as Value[])
 		def propName = property.name
 		def parent = property.parent
