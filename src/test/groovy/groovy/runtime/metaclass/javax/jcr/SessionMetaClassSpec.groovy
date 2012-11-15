@@ -51,9 +51,11 @@ class SessionMetaClassSpec extends AbstractJcrSpec {
 		and:
 		GParsPool.withPool {
 			1..100.eachParallel { id ->
-				session.withLock(lock) {
+				def retVal = session.withLock(lock) {
 					rootNode.addNode("testLockedNode$id")
 				}
+                
+                assert retVal.name == "testLockedNode$id"
 			}
 		}
 		
@@ -65,12 +67,13 @@ class SessionMetaClassSpec extends AbstractJcrSpec {
 	
 	def 'verify session is saved'() {
 		setup:
-		session.save {
+		def retVal = session.save {
 			rootNode.addNode('testSessionSave')
 		}
 		
 		expect:
 		!session.hasPendingChanges()
+        assert retVal.name == 'testSessionSave'
 	}
 	
 	def 'verify session is NOT saved on exception'() {

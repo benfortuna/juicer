@@ -44,20 +44,21 @@ class SessionMetaClass extends DelegatingMetaClass {
 		super(delegate)
 	}
 	
-	void withLock(Object a, Lock lock, Closure c) {
+	Object withLock(Object a, Lock lock, Closure c) {
 		lock.lock()
 		try {
-			a.with c
+			return a.with(c)
 		}
 		finally {
 			lock.unlock()
 		}
 	}
 	
-	void save(javax.jcr.Session a, boolean rollbackOnException = true, Closure c) {
+	Object save(javax.jcr.Session a, boolean rollbackOnException = true, Closure c) {
 		try {
-			a.with c
+			def retVal = a.with c
 			a.save()
+            return retVal
 		}
 		catch (RepositoryException re) {
 			a.refresh(!rollbackOnException)
