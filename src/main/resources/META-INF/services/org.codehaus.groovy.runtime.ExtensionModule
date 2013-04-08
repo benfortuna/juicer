@@ -1,0 +1,3 @@
+moduleName = juicer-module
+moduleVersion = ${project.version}
+extensionClasses = org.mnode.juicer.util.NodeUtilsExtension
