@@ -31,6 +31,11 @@
  */
 package org.mnode.juicer.util
 
+import groovy.transform.WithWriteLock
+
+import javax.jcr.Binary;
+import javax.jcr.Value
+
 class NodeUtils {
 
 	static def traverse(javax.jcr.Node node, Closure closure) {
@@ -38,5 +43,35 @@ class NodeUtils {
 			traverse(it, closure)
 		}
 		closure.call(node)
+	}
+	
+	static leftShift(javax.jcr.Node node, Object value) {
+		if (String.class.isAssignableFrom(value.class) && node.hasNode(value)) {
+			return node.getNode(value)
+		}
+		else {
+			return node.addNode(value)
+		}
+	}
+
+	@WithWriteLock
+	static void setProperty(Object node, String propertyName, Object value) {
+		try {
+			node.setProperty(propertyName, value)
+		}
+		catch (MissingPropertyException e) {
+            if (value instanceof ArrayList) {
+                def values = []
+                value.each {
+                    values << node.session.valueFactory.createValue(it)
+                }
+                node.setProperty propertyName, values as Value[]
+            } else if (InputStream.class.isAssignableFrom(value.class)) {
+				Binary binary = node.session.valueFactory.createBinary(value)
+				node.setProperty propertyName, binary
+            } else {
+                node.setProperty propertyName, value
+            }
+		}
 	}
 }

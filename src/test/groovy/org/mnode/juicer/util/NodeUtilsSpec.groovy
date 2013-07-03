@@ -50,7 +50,7 @@ class NodeUtilsSpec extends AbstractJcrSpec {
 		}
 	}
 	
-	def 'test extension module'() {
+	def 'test traverse extension module'() {
 		setup: 'create a new node and children'
 		def node = session.rootNode.addNode('testTraverseNode')
 		node.addNode('child1')

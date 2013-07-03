@@ -146,7 +146,7 @@ class NodeMetaClass extends DelegatingMetaClass {
 //			}
 		}
 	}
-	
+/*	
 	javax.jcr.Node leftShift(javax.jcr.Node node, String relPath) {
 		if (node.hasNode(relPath)) {
 			return node.getNode(relPath)
@@ -155,4 +155,5 @@ class NodeMetaClass extends DelegatingMetaClass {
 			return node.addNode(relPath)
 		}
 	}
+*/
 }

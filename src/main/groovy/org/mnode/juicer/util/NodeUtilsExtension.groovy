@@ -36,4 +36,12 @@ class NodeUtilsExtension {
 	static void traverse(javax.jcr.Node self, Closure<Void> closure) {
 		NodeUtils.traverse(self, closure)
 	}
+	
+	static def leftShift(javax.jcr.Node self, Object value) {
+		NodeUtils.leftShift(self, value)
+	}
+	
+//	static void setProperty(javax.jcr.Node node, String propertyName, Object value) {
+//		NodeUtils.setProperty(node, propertyName, value)
+//	}
 }
