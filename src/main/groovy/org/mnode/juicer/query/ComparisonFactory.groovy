@@ -55,7 +55,7 @@ class ComparisonFactory extends AbstractQomFactory {
              String operator = attributes.remove('operator')
              StaticOperand operand2 = attributes.remove('operand2')
 //             StaticOperand operand2 = queryManager.qomFactory.literal(operand2Value)
-             comparison = queryManager.qomFactory.comparison(operand1, operator, operand2)
+             comparison = queryManager.QOMFactory.comparison(operand1, operator, operand2)
          }
          comparison
      }

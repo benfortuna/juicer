@@ -52,7 +52,7 @@ class AndFactory extends AbstractQomFactory {
          else {
              Constraint constraint1 = attributes.remove('constraint1')
              Constraint constraint2 = attributes.remove('constraint2')
-             constraint = queryManager.qomFactory.and(constraint1, constraint2)
+             constraint = queryManager.QOMFactory.and(constraint1, constraint2)
          }
          constraint
      }

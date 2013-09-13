@@ -57,7 +57,7 @@ class QueryFactory extends AbstractQomFactory {
              Constraint constraint = attributes.remove('constraint')
              Ordering[] orderings = attributes.remove('orderings')
              Column[] columns = attributes.remove('columns')
-             query = queryManager.qomFactory.createQuery(source, constraint, orderings, columns)
+             query = queryManager.QOMFactory.createQuery(source, constraint, orderings, columns)
          }
          query
      }

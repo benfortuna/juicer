@@ -52,7 +52,7 @@ class PropertyExistenceFactory extends AbstractQomFactory {
          else {
              String selectorName = attributes.remove('selectorName')
              String propertyName = attributes.remove('propertyName')
-             result = queryManager.qomFactory.propertyExistence(selectorName, propertyName)
+             result = queryManager.QOMFactory.propertyExistence(selectorName, propertyName)
          }
          result
      }

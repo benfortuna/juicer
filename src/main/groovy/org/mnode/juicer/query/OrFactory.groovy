@@ -52,7 +52,7 @@ class OrFactory extends AbstractQomFactory {
          else {
              Constraint constraint1 = attributes.remove('constraint1')
              Constraint constraint2 = attributes.remove('constraint2')
-             constraint = queryManager.qomFactory.or(constraint1, constraint2)
+             constraint = queryManager.QOMFactory.or(constraint1, constraint2)
          }
          constraint
      }

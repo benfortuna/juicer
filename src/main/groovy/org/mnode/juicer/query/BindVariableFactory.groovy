@@ -50,7 +50,7 @@ class BindVariableFactory extends AbstractQomFactory {
          }
          else {
              String bindVariableName = value
-             bindVariable = queryManager.qomFactory.bindVariable(bindVariableName)
+             bindVariable = queryManager.QOMFactory.bindVariable(bindVariableName)
          }
          bindVariable
      }

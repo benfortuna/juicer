@@ -51,7 +51,7 @@ class SelectorFactory extends AbstractQomFactory {
          else {
              String selectorName = attributes.remove('name')
              String nodeType = attributes.remove('nodeType')
-             selector = queryManager.qomFactory.selector(nodeType, selectorName)
+             selector = queryManager.QOMFactory.selector(nodeType, selectorName)
          }
          selector
      }

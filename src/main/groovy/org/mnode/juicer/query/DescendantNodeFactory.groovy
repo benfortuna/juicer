@@ -51,7 +51,7 @@ class DescendantNodeFactory extends AbstractQomFactory {
          else {
              String selectorName = attributes.remove('selectorName')
              String path = attributes.remove('path')
-             descendantNode = queryManager.qomFactory.descendantNode(selectorName, path)
+             descendantNode = queryManager.QOMFactory.descendantNode(selectorName, path)
          }
          descendantNode
      }

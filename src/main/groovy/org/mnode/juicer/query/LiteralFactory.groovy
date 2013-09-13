@@ -51,7 +51,7 @@ class LiteralFactory extends AbstractQomFactory {
          }
          else {
              Value literalValue = value
-             literal = queryManager.qomFactory.literal(literalValue)
+             literal = queryManager.QOMFactory.literal(literalValue)
          }
          literal
      }

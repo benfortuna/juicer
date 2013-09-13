@@ -51,7 +51,7 @@ class ChildNodeFactory extends AbstractQomFactory {
          else {
              String selectorName = attributes.remove('selectorName')
              String path = attributes.remove('path')
-             childNode = queryManager.qomFactory.childNode(selectorName, path)
+             childNode = queryManager.QOMFactory.childNode(selectorName, path)
          }
          childNode
      }

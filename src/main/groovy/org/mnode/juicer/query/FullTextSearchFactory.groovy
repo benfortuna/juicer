@@ -60,7 +60,7 @@ class FullTextSearchFactory extends AbstractQomFactory {
 			 else {
              	fullTextSearchExpression = queryManager.qomFactory.literal(valueFactory.createValue(searchTerms))
 			 }
-             fullTextSearch = queryManager.qomFactory.fullTextSearch(selectorName, propertyName, fullTextSearchExpression)
+             fullTextSearch = queryManager.QOMFactory.fullTextSearch(selectorName, propertyName, fullTextSearchExpression)
          }
          fullTextSearch
      }

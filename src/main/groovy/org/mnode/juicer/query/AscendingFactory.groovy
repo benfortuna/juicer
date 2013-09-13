@@ -51,7 +51,7 @@ class AscendingFactory extends AbstractQomFactory {
          }
          else {
              DynamicOperand operand = attributes.remove('operand')
-             ordering = queryManager.qomFactory.ascending(operand)
+             ordering = queryManager.QOMFactory.ascending(operand)
          }
          ordering
      }

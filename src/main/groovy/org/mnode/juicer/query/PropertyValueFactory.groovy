@@ -51,7 +51,7 @@ class PropertyValueFactory extends AbstractQomFactory {
          else {
              String selectorName = attributes.remove('selectorName')
              String propertyName = attributes.remove('propertyName')
-             propertyValue = queryManager.qomFactory.propertyValue(selectorName, propertyName)
+             propertyValue = queryManager.QOMFactory.propertyValue(selectorName, propertyName)
          }
          propertyValue
      }

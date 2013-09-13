@@ -51,7 +51,7 @@ class NodeNameFactory extends AbstractQomFactory {
          }
          else {
              String selectorName = attributes.remove('selectorName')
-             nodeName = queryManager.qomFactory.nodeName(selectorName)
+             nodeName = queryManager.QOMFactory.nodeName(selectorName)
          }
          nodeName
      }
