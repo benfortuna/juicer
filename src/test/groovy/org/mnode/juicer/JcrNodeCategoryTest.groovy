@@ -74,4 +74,9 @@ class JcrNodeCategoryTest extends AbstractJcrTest {
             assert node[2].name == 'childnode3'
         }
     }
+	
+	@Override
+	public String getTestName() {
+		return getClass().simpleName;
+	}
 }

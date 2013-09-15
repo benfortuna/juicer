@@ -96,4 +96,9 @@ class JcrNodeGPathTest extends AbstractJcrTest {
         // shouldn't get events for the last property change..
         assert eventCount == 2
     }
+	
+	@Override
+	public String getTestName() {
+		return getClass().simpleName;
+	}
 }
