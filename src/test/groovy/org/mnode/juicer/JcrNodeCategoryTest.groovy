@@ -76,7 +76,7 @@ class JcrNodeCategoryTest extends AbstractJcrTest {
     }
 	
 	@Override
-	public String getTestName() {
+	public static String getTestName() {
 		return getClass().simpleName;
 	}
 }
