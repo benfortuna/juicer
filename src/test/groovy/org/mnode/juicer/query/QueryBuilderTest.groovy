@@ -91,9 +91,4 @@ class QueryBuilderTest extends AbstractJcrTest {
 		
 		println references.statement
 	}
-	
-	@Override
-	public static String getTestName() {
-		return getClass().simpleName;
-	}
 }
