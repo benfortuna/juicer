@@ -65,5 +65,5 @@ abstract class AbstractJcrTest {
         session.refresh false
     }
 
-	abstract static String getTestName();
+	abstract public static String getTestName();
 }
