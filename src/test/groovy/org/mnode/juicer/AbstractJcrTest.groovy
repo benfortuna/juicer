@@ -47,7 +47,7 @@ abstract class AbstractJcrTest {
     @BeforeClass
     static void initialise() {
         def configFile = JcrNodeCategoryTest.getResource('/config.xml').toURI()
-        def homeDir = new File("target/repository/${getTestName()}").absolutePath
+        def homeDir = new File("target/repository/${getClass().simpleName}").absolutePath
         def config = RepositoryConfig.create(configFile, homeDir)
         
         def repository = new TransientRepository(config)
@@ -64,6 +64,4 @@ abstract class AbstractJcrTest {
     void tearDown() {
         session.refresh false
     }
-
-	abstract public static String getTestName();
 }
