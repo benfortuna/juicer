@@ -31,11 +31,14 @@
  */
 package org.mnode.juicer.query
 
+import spock.lang.Ignore
+
 import javax.jcr.Session
 import javax.jcr.query.qom.QueryObjectModelConstants
 
 import org.mnode.juicer.AbstractJcrSpec
 
+@Ignore
 class QueryBuilderSpec extends AbstractJcrSpec {
 
 	def 'verify attachments query is generated correctly'() {
