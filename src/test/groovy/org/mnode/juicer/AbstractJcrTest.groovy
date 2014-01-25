@@ -38,6 +38,7 @@ import org.junit.BeforeClass
 import javax.jcr.Repository
 import javax.jcr.RepositoryFactory
 import javax.jcr.Session
+import javax.jcr.SimpleCredentials
 
 abstract class AbstractJcrTest {
     
@@ -50,11 +51,14 @@ abstract class AbstractJcrTest {
         parameters.load(stream)
 
         Repository repository = null;
-        ServiceLoader.load(RepositoryFactory).each { factory ->
+        ServiceLoader.load(RepositoryFactory).find { factory ->
             repository = factory.getRepository(parameters)
-            if (repository != null) return
+            if (repository != null) return true
         }
+
+        // Although modeshape allows repository modification by anonymous user, jackrabbit does not..
         session = repository.login()
+//        session = repository.login(new SimpleCredentials('admin', 'admin'.toCharArray()))
     }
     
     @AfterClass
