@@ -109,7 +109,6 @@ class JcromUtilsSpec extends AbstractJcrSpec {
 		test.phone == node['phone'].long
 	}
 
-	@Ignore
 	def 'test extension module'() {
 		setup: 'create a new node and children'
 		def node = session.rootNode.addNode('testTraverseNode')
