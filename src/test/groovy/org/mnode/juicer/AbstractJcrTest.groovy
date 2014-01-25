@@ -31,14 +31,13 @@
  */
 package org.mnode.juicer
 
-import javax.jcr.Session;
-import javax.jcr.SimpleCredentials;
+import org.junit.After
+import org.junit.AfterClass
+import org.junit.BeforeClass
 
-import org.apache.jackrabbit.core.TransientRepository;
-import org.apache.jackrabbit.core.config.RepositoryConfig;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import javax.jcr.Repository
+import javax.jcr.RepositoryFactory
+import javax.jcr.Session
 
 abstract class AbstractJcrTest {
     
@@ -46,13 +45,16 @@ abstract class AbstractJcrTest {
     
     @BeforeClass
     static void initialise() {
-        def configFile = JcrNodeCategoryTest.getResource('/config.xml').toURI()
-        def homeDir = new File("target/repository/${getClass().simpleName}").absolutePath
-        def config = RepositoryConfig.create(configFile, homeDir)
-        
-        def repository = new TransientRepository(config)
-        
-        session = repository.login(new SimpleCredentials('admin', ''.toCharArray()))
+        InputStream stream = AbstractJcrSpec.getResourceAsStream('/repository.properties')
+        def parameters = new Properties()
+        parameters.load(stream)
+
+        Repository repository = null;
+        ServiceLoader.load(RepositoryFactory).each { factory ->
+            repository = factory.getRepository(parameters)
+            if (repository != null) return
+        }
+        session = repository.login()
     }
     
     @AfterClass
