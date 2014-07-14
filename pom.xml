@@ -2,7 +2,7 @@
 	<parent>
 		<artifactId>mnode-parent</artifactId>
 		<groupId>org.mnode</groupId>
-		<version>1.21</version>
+		<version>1.22</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.mnode.juicer</groupId>
@@ -81,7 +81,7 @@
         <dependency>
             <groupId>org.codehaus.gpars</groupId>
             <artifactId>gpars</artifactId>
-            <version>1.0-beta-2</version>
+            <version>1.2.1</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
