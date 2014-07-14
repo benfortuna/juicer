@@ -14,3 +14,5 @@ syntax: regexp
 ^\.checkstyle$
 syntax: regexp
 ^\.pmd$
+syntax: regexp
+^build$
